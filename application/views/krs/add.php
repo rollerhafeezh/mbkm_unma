@@ -16,6 +16,12 @@
 		</div>
 		<?php  } ?>
 
+
+		<div class="alert bg-info alert-icon-left alert-arrow-left  mb-2" role="alert">
+			<span class="alert-icon"><i class="la la-info"></i></span>
+			Silahkan lakukan validasi perwalian kepada <b>Dosen Wali</b> & <b>Ketua Program Studi</b> dengan menunjukkan <b>Transkrip Nilai Terbaru</b> dan <b>KRS MBKM</b> yang sudah dicetak pada halaman ini.
+		</div>
+
 		<!-- DATA MAHASISWA -->
 		<div class="row mb-1 p-2">
 			<div class="col-12 text-right mb-2" id="top">
@@ -55,20 +61,28 @@
 			<div class="col-lg-4">
 				<?php if(!$krs_log['status']) echo $semester->nama_semester; else smt2nama($krs_log['isi']['id_smt']);?>
 			</div>
-			<div class="col-lg-2 text-bold-600">
+			<!-- <div class="col-lg-2 text-bold-600">
 				Catatan Dosen
 			</div>
 			<div class="col-lg-4">
 				<?php if(!$krs_log['status']) echo $krs_log['isi']; else echo $krs_log['isi']['isi_catatan'];?>
-			</div>
+			</div> -->
 			<div class="col-lg-2 text-bold-600">
-				IPS <?=smt2nama($smt_lalu)?>
+				IPK
+				<!-- IPS <?=smt2nama($smt_lalu)?> -->
 			</div>
 			<div class="col-lg-4">
-				<?php if($ips_smt_lalu){ ?>
+				<a href="<?= base_url('nilai/index/'.$detail_mhs_pt->id_mahasiswa_pt) ?>"><?= $detail_mhs_pt->ipk ?></a> (<i><small>Maksimal 20 SKS</small></i>)
+				<!-- <?php if($ips_smt_lalu){ ?>
 				<a target="_blank" href="<?=base_url('krs/lihat_khs/'.$smt_lalu.'/'.$detail_mhs_pt->id_mahasiswa_pt)?>"><?=$ips_smt_lalu->detail[0]->ips == '' ? '0.00' : $ips_smt_lalu->detail[0]->ips?></a>
 				<?php }?> 
-				<em><small>(maks <?=$batas_sks?> sks)</small></em>
+				<em><small>(maks <?=$batas_sks?> sks)</small></em> -->
+			</div>
+			<div class="col-lg-2 text-bold-600">
+				Program MBKM
+			</div>
+			<div class="col-lg-4">
+				<?= $aktivitas_mahasiswa->nama_jenis_aktivitas_mahasiswa; ?>
 			</div>
 		</div>
 		<!-- DATA MAHASISWA -->
@@ -226,8 +240,8 @@
 								$nilai='';
 							}
 							?>
-							<label class="d-block w-100 <?=$nilai?>" onclick="take_kelas('<?=$key->id_matkul?>')">
-								<input type="checkbox" id="L<?=str_replace(' ', '_',$key->id_matkul)?>">
+							<label class="d-block w-100 <?=$nilai?>" >
+								<input type="checkbox" id="L<?=str_replace(' ', '_',$key->id_matkul)?>" onclick="take_kelas('<?=$key->id_matkul?>')">
 								<strong><?=$key->kode_mk?></strong> <?=$key->nm_mk?> <i>(<?=$a_wajib .' - '. $key->sks_mk?> SKS)</i> 
 								<?= ($key->nilai_huruf) ? '(Nilai : <strong>'.$key->nilai_huruf.'</strong>)':''?> 
 							</label>
@@ -362,18 +376,19 @@ function smt(e)
 
 function take_kelas()
 {
-	if ($(`#L${arguments[0]}`).is(":checked") != true) { 
+	var state = $(`#L${arguments[0]}`).is(':checked') ? '1' : '0'
+	// if (state != true) { 
 		var id_mahasiswa_pt = '<?=$detail_mhs_pt->id_mahasiswa_pt?>';
 		$.ajax({
 			type:"POST",
 			url: "<?=base_url('krs/take_kelas/')?>",
 			cache: false,
-			data:{id_matkul:arguments[0], id_mahasiswa_pt:id_mahasiswa_pt, id_semester: <?=$semester->id_semester?>},
+			data:{id_matkul:arguments[0], id_mahasiswa_pt:id_mahasiswa_pt, id_semester: <?=$semester->id_semester?>, status: state},
 			success: function(respond){
 				filter();
 			}
 		});
-	}
+	// }
 };
 
 $(document).on("change",'select[name*="ubah_status"]',function(){
@@ -411,7 +426,7 @@ $(document).ready(function() {
 				{ data: 'nama_kelas_kuliah', searchable:false, render: 
 						function ( data, type, row, meta ) {
 						<?php if($_SESSION['app_level']==1){ ?>
-							return data;
+							return `${row.smt_mk} - ${data}`;
 						<?php }else{ ?>
 							return '<a target="_blank" href="<?=base_url()?>/kelas/detail/'+row.id_kelas_kuliah+'">'+data+' ('+row.kode_mk+')</a>';
 						<?php } ?>
@@ -422,7 +437,7 @@ $(document).ready(function() {
 					function ( data, type, row, meta ) {
 							var ket;
 							switch(data){
-									case 1: ket='Sudah Acc/ Belum Dibayar'; break;
+									case 1: ket='Sudah Acc'; break;
 									case 2: ket='Sudah Dibayar'; break;
 									default: ket='Belum disetujui';
 								}

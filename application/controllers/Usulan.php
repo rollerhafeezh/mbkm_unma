@@ -24,8 +24,9 @@ class Usulan extends CI_Controller {
 		$data['title']	='Usulan Program';
 		$data['view']	='usulan/index';
 
-		$data['detail'] = json_decode($this->curl->simple_get(ADD_API.'mbkm/mahasiswa_pt?id_mahasiswa_pt='.$_SESSION['id_user']))[0];
-		$data['aktivitas_mahasiswa'] = json_decode($this->curl->simple_get(ADD_API.'mbkm/anggota?id_mahasiswa_pt='.$_SESSION['id_user']));
+		$data['detail'] = json_decode($this->curl->simple_get(ADD_API.'aktivitas/mahasiswa_pt?id_mahasiswa_pt='.$_SESSION['id_user']))[0];
+		echo ADD_API.'aktivitas/mahasiswa_pt?id_mahasiswa_pt='.$_SESSION['id_user']; exit;
+		$data['aktivitas_mahasiswa'] = json_decode($this->curl->simple_get(ADD_API.'aktivitas/anggota?mbkm=1&id_mahasiswa_pt='.$_SESSION['id_user']));
 
 		$this->load->view('lyt/index', $data);
 	}

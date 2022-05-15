@@ -51,6 +51,7 @@
                     <th width="1">No.</th>
                     <th width="1">Kode MK</th>
                     <th>Nama Mata Kuliah</th>
+                    <th width="1">SMT</th>
                     <!-- <th width="1">Waktu</th> -->
                     <!-- <th width="160">Tempat</th> -->
                     <th width="1">Bobot SKS</th>
@@ -67,6 +68,7 @@
                     <td align="center"><?= $no ?>.</td>
                     <td><?= $row['kode_mk'] ?></td>
                     <td><?= $row['nama_kelas_kuliah'] ?></td>
+                    <td align="center"><?= $row['smt_mk'] ?></td>
                     <!-- <td align="center"><?= $row['hari_kuliah'] ?> - <?= $row['jam_mulai'] ?></td> -->
                     <!-- <td align="center"><?= $row['nama_gedung'].' (R. '.$row['nama_ruangan'].')' ?></td> -->
                     <td align="center"><?= $row['sks_mk'] ?></td>
@@ -77,7 +79,7 @@
                     }
                 ?>
                 <tr>
-                    <td colspan="3" align="center">Jumlah</td>
+                    <td colspan="4" align="center">Jumlah</td>
                     <td align="center"><?= $sks ?></td>
                 </tr>
             </tbody>

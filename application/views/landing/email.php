@@ -1,180 +1,409 @@
-<table width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;border-spacing:0px;padding:0;Margin:0;width:100%;height:100%;background-repeat:repeat;background-position:center top">
-   <tbody>
-      <tr style="border-collapse:collapse">
-         <td valign="top" style="padding:0;Margin:0">
-            <table class="m_-2560347901789010870es-content" cellspacing="0" cellpadding="0" align="center" style="border-collapse:collapse;border-spacing:0px;table-layout:fixed!important;width:100%">
-               <tbody>
-                  <tr style="border-collapse:collapse"></tr>
-                  <tr style="border-collapse:collapse">
-                     <td align="center" style="padding:0;Margin:0">
-                        <table style="border-collapse:collapse;border-spacing:0px;background-color:transparent;width:600px" cellspacing="0" cellpadding="0" align="center">
-                           <tbody>
-                              <tr style="border-collapse:collapse">
-                                 <td align="left" style="Margin:0;padding-left:10px;padding-right:10px;padding-top:15px;padding-bottom:15px">
-                                    <table class="m_-2560347901789010870es-left" cellspacing="0" cellpadding="0" align="left" style="border-collapse:collapse;border-spacing:0px;float:left">
-                                       <tbody>
-                                          <tr style="border-collapse:collapse">
-                                             <td align="left" style="padding:0;Margin:0;width:282px">
-                                                <table width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;border-spacing:0px">
-                                                   <tbody>
-                                                      <tr style="border-collapse:collapse">
-                                                         <td align="center" style="padding:0;Margin:0;display:none"></td>
-                                                      </tr>
-                                                   </tbody>
-                                                </table>
-                                             </td>
-                                          </tr>
-                                       </tbody>
-                                    </table>
-                                    <table class="m_-2560347901789010870es-right" cellspacing="0" cellpadding="0" align="right" style="border-collapse:collapse;border-spacing:0px;float:right">
-                                       <tbody>
-                                          <tr style="border-collapse:collapse">
-                                             <td align="left" style="padding:0;Margin:0;width:278px">
-                                                <table width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;border-spacing:0px">
-                                                   <tbody>
-                                                      <tr style="border-collapse:collapse">
-                                                         <td align="center" style="padding:0;Margin:0;display:none"></td>
-                                                      </tr>
-                                                   </tbody>
-                                                </table>
-                                             </td>
-                                          </tr>
-                                       </tbody>
-                                    </table>
-                                 </td>
-                              </tr>
-                           </tbody>
+<!doctype html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Aktivasi Akun : MBKM UNMA</title>
+    <style>
+      /* -------------------------------------
+          GLOBAL RESETS
+      ------------------------------------- */
+      
+      /*All the styling goes here*/
+      
+      img {
+        border: none;
+        -ms-interpolation-mode: bicubic;
+        max-width: 100%; 
+      }
+
+      body {
+        background-color: #f6f6f6;
+        font-family: sans-serif;
+        -webkit-font-smoothing: antialiased;
+        font-size: 14px;
+        line-height: 1.4;
+        margin: 0;
+        padding: 0;
+        -ms-text-size-adjust: 100%;
+        -webkit-text-size-adjust: 100%; 
+      }
+
+      table {
+        border-collapse: separate;
+        mso-table-lspace: 0pt;
+        mso-table-rspace: 0pt;
+        width: 100%; }
+        table td {
+          font-family: sans-serif;
+          font-size: 14px;
+          vertical-align: top; 
+      }
+
+      /* -------------------------------------
+          BODY & CONTAINER
+      ------------------------------------- */
+
+      .body {
+        background-color: #f6f6f6;
+        width: 100%; 
+      }
+
+      /* Set a max-width, and make it display as block so it will automatically stretch to that width, but will also shrink down on a phone or something */
+      .container {
+        display: block;
+        margin: 0 auto !important;
+        /* makes it centered */
+        max-width: 580px;
+        padding: 10px;
+        width: 580px; 
+      }
+
+      /* This should also be a block element, so that it will fill 100% of the .container */
+      .content {
+        box-sizing: border-box;
+        display: block;
+        margin: 0 auto;
+        max-width: 580px;
+        padding: 10px; 
+      }
+
+      /* -------------------------------------
+          HEADER, FOOTER, MAIN
+      ------------------------------------- */
+      .main {
+        background: #ffffff;
+        border-radius: 3px;
+        width: 100%; 
+      }
+
+      .wrapper {
+        box-sizing: border-box;
+        padding: 20px; 
+      }
+
+      .content-block {
+        padding-bottom: 10px;
+        padding-top: 10px;
+      }
+
+      .footer {
+        clear: both;
+        margin-top: 10px;
+        text-align: center;
+        width: 100%; 
+      }
+        .footer td,
+        .footer p,
+        .footer span,
+        .footer a {
+          color: #999999;
+          font-size: 12px;
+          text-align: center; 
+      }
+
+      /* -------------------------------------
+          TYPOGRAPHY
+      ------------------------------------- */
+      h1,
+      h2,
+      h3,
+      h4 {
+        color: #000000;
+        font-family: sans-serif;
+        /*font-weight: 400;*/
+        line-height: 1.4;
+        margin: 0;
+        /*margin-bottom: 30px; */
+      }
+
+      h1 {
+        font-size: 35px;
+        font-weight: 300;
+        text-align: center;
+        text-transform: capitalize; 
+      }
+
+      p,
+      ul,
+      ol {
+        font-family: sans-serif;
+        font-size: 14px;
+        font-weight: normal;
+        margin: 0;
+        margin-bottom: 15px; 
+      }
+        p li,
+        ul li,
+        ol li {
+          list-style-position: inside;
+          margin-left: 5px; 
+      }
+
+      a {
+        color: #3498db;
+        text-decoration: underline; 
+      }
+
+      /* -------------------------------------
+          BUTTONS
+      ------------------------------------- */
+      .btn {
+        box-sizing: border-box;
+        width: 100%; }
+        .btn > tbody > tr > td {
+          padding-bottom: 15px; }
+        .btn table {
+          width: auto; 
+      }
+        .btn table td {
+          background-color: #ffffff;
+          border-radius: 5px;
+          text-align: center; 
+      }
+        .btn a {
+          background-color: #ffffff;
+          border: solid 1px #3498db;
+          border-radius: 5px;
+          box-sizing: border-box;
+          color: #3498db;
+          cursor: pointer;
+          display: inline-block;
+          font-size: 14px;
+          font-weight: bold;
+          margin: 0;
+          padding: 12px 25px;
+          text-decoration: none;
+          text-transform: capitalize; 
+      }
+
+      .btn-primary table td {
+        background-color: #3498db; 
+      }
+
+      .btn-primary a {
+        background-color: #3498db;
+        border-color: #3498db;
+        color: #ffffff; 
+      }
+
+      /* -------------------------------------
+          OTHER STYLES THAT MIGHT BE USEFUL
+      ------------------------------------- */
+      .last {
+        margin-bottom: 0; 
+      }
+
+      .first {
+        margin-top: 0; 
+      }
+
+      .align-center {
+        text-align: center; 
+      }
+
+      .align-right {
+        text-align: right; 
+      }
+
+      .align-left {
+        text-align: left; 
+      }
+
+      .clear {
+        clear: both; 
+      }
+
+      .mt0 {
+        margin-top: 0; 
+      }
+
+      .mb0 {
+        margin-bottom: 0; 
+      }
+
+      .preheader {
+        color: transparent;
+        display: none;
+        height: 0;
+        max-height: 0;
+        max-width: 0;
+        opacity: 0;
+        overflow: hidden;
+        mso-hide: all;
+        visibility: hidden;
+        width: 0; 
+      }
+
+      .powered-by a {
+        text-decoration: none; 
+      }
+
+      hr {
+        border: 0;
+        border-bottom: 1px solid #f6f6f6;
+        margin: 20px 0; 
+      }
+
+      /* -------------------------------------
+          RESPONSIVE AND MOBILE FRIENDLY STYLES
+      ------------------------------------- */
+      @media only screen and (max-width: 620px) {
+        table.body h1 {
+          font-size: 28px !important;
+          margin-bottom: 10px !important; 
+        }
+        table.body p,
+        table.body ul,
+        table.body ol,
+        table.body td,
+        table.body span,
+        table.body a {
+          font-size: 16px !important; 
+        }
+        table.body .wrapper,
+        table.body .article {
+          padding: 10px !important; 
+        }
+        table.body .content {
+          padding: 0 !important; 
+        }
+        table.body .container {
+          padding: 0 !important;
+          width: 100% !important; 
+        }
+        table.body .main {
+          border-left-width: 0 !important;
+          border-radius: 0 !important;
+          border-right-width: 0 !important; 
+        }
+        table.body .btn table {
+          width: 100% !important; 
+        }
+        table.body .btn a {
+          width: 100% !important; 
+        }
+        table.body .img-responsive {
+          height: auto !important;
+          max-width: 100% !important;
+          width: auto !important; 
+        }
+      }
+
+      /* -------------------------------------
+          PRESERVE THESE STYLES IN THE HEAD
+      ------------------------------------- */
+      @media all {
+        .ExternalClass {
+          width: 100%; 
+        }
+        .ExternalClass,
+        .ExternalClass p,
+        .ExternalClass span,
+        .ExternalClass font,
+        .ExternalClass td,
+        .ExternalClass div {
+          line-height: 100%; 
+        }
+        .apple-link a {
+          color: inherit !important;
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          text-decoration: none !important; 
+        }
+        #MessageViewBody a {
+          color: inherit;
+          text-decoration: none;
+          font-size: inherit;
+          font-family: inherit;
+          font-weight: inherit;
+          line-height: inherit;
+        }
+        .btn-primary table td:hover {
+          background-color: #34495e !important; 
+        }
+        .btn-primary a:hover {
+          background-color: #34495e !important;
+          border-color: #34495e !important; 
+        } 
+      }
+
+    </style>
+  </head>
+  <body>
+    <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="body">
+      <tr>
+        <td>&nbsp;</td>
+        <td class="container">
+          <div class="content">
+
+            <!-- START CENTERED WHITE CONTAINER -->
+            <table role="presentation" class="main">
+
+              <!-- START MAIN CONTENT AREA -->
+              <tr>
+                <td class="wrapper">
+                  <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                      <td>
+                        <p>Hai, <?= $nama_lengkap ?>.</p>
+                        <p>Terima kasih telah melakukan registrasi akun Merdeka Belajar Kampus Merdeka (MBKM) Universitas Majalengka, berikut adalah informasi akun kamu :</p>
+                        <p>
+                          <b>Username :</b> <?= $username ?> <br>
+                          <b>Password :</b> <?= $password ?>
+                        </p>
+                        <!-- <p>untuk dapat mengakses laman Merdeka Belajar : Kampus Merdeka, silahkan aktivasi akun dengan klik tombol "AKTIFKAN AKUN" di bawah ini :</p>
+                        <a href="<?= base_url('akvitasi_akun/'.$aktivasi) ?>" target="_blank">AKTIFKAN AKUN</a> -->
+                        <br>
+                        <br>
+                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
+                          <tbody>
+                            <tr>
+                              <td align="left">
+                                <img src="https://mbkm.unma.ac.id/assets/images/LOGO%20KRS.png" style="width: 70%;margin: 0 auto;display: block;">
+                              </td>
+                              <td>
+                                <h3>Merdeka Belajar : Kampus Merdeka</h3>
+                                  Universitas Majalengka <br>
+                                  Jl. KH. Abdul Halim No. 103 Majalengka
+                              </td>
+                            </tr>
+                          </tbody>
                         </table>
-                     </td>
-                  </tr>
-               </tbody>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+
+            <!-- END MAIN CONTENT AREA -->
             </table>
-            <table class="m_-2560347901789010870es-content" cellspacing="0" cellpadding="0" align="center" style="border-collapse:collapse;border-spacing:0px;table-layout:fixed!important;width:100%">
-               <tbody>
-                  <tr style="border-collapse:collapse">
-                     <td align="center" style="padding:0;Margin:0">
-                        <table cellspacing="0" cellpadding="0" bgcolor="#ffffff" align="center" style="border-collapse:collapse;border-spacing:0px;background-color:#ffffff;width:600px">
-                           <tbody>
-                              <tr style="border-collapse:collapse">
-                                 <td align="left" style="padding:0;Margin:0;padding-left:35px;padding-right:35px;padding-top:40px">
-                                    <table width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;border-spacing:0px">
-                                       <tbody>
-                                          <tr style="border-collapse:collapse">
-                                             <td valign="top" align="center" style="padding:0;Margin:0;width:530px">
-                                                <table width="100%" cellspacing="0" cellpadding="0" role="presentation" style="border-collapse:collapse;border-spacing:0px">
-                                                   <tbody>
-                                                      <tr style="border-collapse:collapse">
-                                                         <td class="m_-2560347901789010870es-m-txt-l" align="left" style="padding:0;Margin:0;padding-top:15px">
-                                                            <h3 style="Margin:0;line-height:22px;font-family:'open sans','helvetica neue',helvetica,arial,sans-serif;font-size:18px;font-style:normal;font-weight:bold;color:#333333">Hai HAFIDZ SANJAYA,</h3>
-                                                         </td>
-                                                      </tr>
-                                                      <tr style="border-collapse:collapse">
-                                                         <td align="left" style="padding:0;Margin:0;padding-bottom:10px;padding-top:15px">
-                                                            <p style="Margin:0;font-size:16px;font-family:'open sans','helvetica neue',helvetica,arial,sans-serif;line-height:24px;color:#333333">Kamu baru saja mendaftar ke Kampus Merdeka. Silakan klik di <a href="http://link.kemdikbud.go.id/click/1nc7cPmPZsMW2G.Tbm0S0hbvGO8k/28fhVuLh/3s/api.kampusmerdeka.kemdikbud.go.id/user/activation/63b13ada-f83e-4d2a-ae0f-83413ce5f813" target="_blank" data-saferedirecturl="https://www.google.com/url?hl=id&amp;q=http://link.kemdikbud.go.id/click/1nc7cPmPZsMW2G.Tbm0S0hbvGO8k/28fhVuLh/3s/api.kampusmerdeka.kemdikbud.go.id/user/activation/63b13ada-f83e-4d2a-ae0f-83413ce5f813&amp;source=gmail&amp;ust=1649349394137000&amp;usg=AOvVaw0NJI0YlKRR8n6ug84mKM8J">sini</a> untuk mengaktifkan akun kamu.</p>
-                                                         </td>
-                                                      </tr>
-                                                   </tbody>
-                                                </table>
-                                             </td>
-                                          </tr>
-                                       </tbody>
-                                    </table>
-                                 </td>
-                              </tr>
-                              <tr style="border-collapse:collapse">
-                                 <td align="left" style="Margin:0;padding-top:30px;padding-bottom:35px;padding-left:35px;padding-right:35px">
-                                    <table cellspacing="0" cellpadding="0" width="100%" style="border-collapse:collapse;border-spacing:0px">
-                                       <tbody>
-                                          <tr style="border-collapse:collapse">
-                                             <td valign="top" align="center" style="padding:0;Margin:0;width:530px">
-                                                <table width="100%" cellspacing="0" cellpadding="0" role="presentation" style="border-collapse:collapse;border-spacing:0px">
-                                                   <tbody>
-                                                      <tr style="border-collapse:collapse"></tr>
-                                                   </tbody>
-                                                </table>
-                                             </td>
-                                          </tr>
-                                       </tbody>
-                                    </table>
-                                 </td>
-                              </tr>
-                           </tbody>
-                        </table>
-                     </td>
-                  </tr>
-               </tbody>
-            </table>
-            <table class="m_-2560347901789010870es-content" cellspacing="0" cellpadding="0" align="center" style="border-collapse:collapse;border-spacing:0px;table-layout:fixed!important;width:100%">
-               <tbody>
-                  <tr style="border-collapse:collapse">
-                     <td align="center" style="padding:0;Margin:0">
-                        <table cellspacing="0" cellpadding="0" bgcolor="#ffffff" align="center" style="border-collapse:collapse;border-spacing:0px;background-color:#ffffff;width:600px">
-                           <tbody>
-                              <tr style="border-collapse:collapse">
-                                 <td align="left" style="padding:0;Margin:0;padding-top:15px;padding-left:35px;padding-right:35px">
-                                    <table width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;border-spacing:0px">
-                                       <tbody>
-                                          <tr style="border-collapse:collapse">
-                                             <td valign="top" align="center" style="padding:0;Margin:0;width:530px">
-                                                <table width="100%" cellspacing="0" cellpadding="0" role="presentation" style="border-collapse:collapse;border-spacing:0px">
-                                                   <tbody>
-                                                      <tr style="border-collapse:collapse">
-                                                         <td align="left" style="padding:0;Margin:0">
-                                                            <p style="Margin:0;font-size:15px;font-family:'open sans','helvetica neue',helvetica,arial,sans-serif;line-height:23px;color:#333333"><strong><span style="text-align:center">
-                                                               Salam,
-                                                               Kampus Merdeka.</span></strong>
-                                                            </p>
-                                                            <p style="Margin:0;font-size:15px;font-family:'open sans','helvetica neue',helvetica,arial,sans-serif;line-height:23px;color:#333333"><br></p>
-                                                            <p style="Margin:0;font-size:15px;font-family:'open sans','helvetica neue',helvetica,arial,sans-serif;line-height:23px;color:#333333"></p>
-                                                            <p style="Margin:0;font-size:15px;font-family:'open sans','helvetica neue',helvetica,arial,sans-serif;line-height:23px;color:#333333"><br></p>
-                                                         </td>
-                                                      </tr>
-                                                   </tbody>
-                                                </table>
-                                             </td>
-                                          </tr>
-                                       </tbody>
-                                    </table>
-                                 </td>
-                              </tr>
-                           </tbody>
-                        </table>
-                     </td>
-                  </tr>
-               </tbody>
-            </table>
-            <table class="m_-2560347901789010870es-content" cellspacing="0" cellpadding="0" align="center" style="border-collapse:collapse;border-spacing:0px;table-layout:fixed!important;width:100%">
-               <tbody>
-                  <tr style="border-collapse:collapse">
-                     <td align="center" style="padding:0;Margin:0">
-                        <table style="border-collapse:collapse;border-spacing:0px;background-color:transparent;width:600px" cellspacing="0" cellpadding="0" align="center">
-                           <tbody>
-                              <tr style="border-collapse:collapse">
-                                 <td align="left" style="Margin:0;padding-left:20px;padding-right:20px;padding-top:30px;padding-bottom:30px">
-                                    <table width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;border-spacing:0px">
-                                       <tbody>
-                                          <tr style="border-collapse:collapse">
-                                             <td valign="top" align="center" style="padding:0;Margin:0;width:560px">
-                                                <table width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;border-spacing:0px">
-                                                   <tbody>
-                                                      <tr style="border-collapse:collapse">
-                                                         <td align="center" style="padding:0;Margin:0;display:none"></td>
-                                                      </tr>
-                                                   </tbody>
-                                                </table>
-                                             </td>
-                                          </tr>
-                                       </tbody>
-                                    </table>
-                                 </td>
-                              </tr>
-                           </tbody>
-                        </table>
-                     </td>
-                  </tr>
-               </tbody>
-            </table>
-         </td>
+            <!-- END CENTERED WHITE CONTAINER -->
+
+            <!-- START FOOTER -->
+            <div class="footer">
+              <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td class="content-block">
+                    <span class="apple-link">&copy; Universitas Majalengka 2022. All Right Reserved.</span>
+                    <br> Developed by <a href="https://github.com/rollerhafeezh">Rollerstudio, Inc.</a>.
+                  </td>
+                </tr>
+                <tr>
+                  <td class="content-block powered-by">
+                    Powered by <a href="http://htmlemail.io">HTMLemail</a>.
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <!-- END FOOTER -->
+
+          </div>
+        </td>
+        <td>&nbsp;</td>
       </tr>
-   </tbody>
-</table>
+    </table>
+  </body>
+</html>

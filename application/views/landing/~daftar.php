@@ -131,6 +131,41 @@
 		                        		<span class="text-muted">Program Kampus Merdeka</span>
 		                        		<span class="show program" style="color: black;">-</span> <br>
 				                    </div>
+
+				                    
+
+				                        	<div class="pmm" style="display: none">
+					                        	<div class="form-group">
+					                        		<label for="nama_pt_tujuan">Perguruan Tinggi Tujuan *</label>
+					                        		<input type="search" autocomplete="off" name="nama_pt_tujuan" id="nama_pt_tujuan" class="form-control" required="" placeholder="Masukan perguruan tinggi asal" onblur="clearTypehead('#nama_pt_tujuan')" readonly>
+					                        		<input type="hidden" name="kode_pt_tujuan" id="kode_pt_tujuan">
+					                        	</div>
+
+					                        	<div id="pmm-eksternal" style="display: none;">
+						                        	<div class="form-group">
+						                        		<label for="nama_prodi_tujuan">Program Studi Tujuan *</label>
+						                        		<input type="search" autocomplete="off" name="nama_prodi_tujuan" id="nama_prodi_tujuan" class="form-control" required="" placeholder="Masukan program studi asal" onblur="clearTypehead('#nama_prodi_tujuan')" readonly>
+						                        	</div>
+					                        	</div>
+
+					                        	<div id="pmm-internal" style="display: none;">
+						                        	<div class="form-group">
+						                        		<label for="kode_fak">Fakultas Tujuan *</label>
+						                        		<select class="form-control" id="kode_fak" >
+						                        			<option value="" hidden="">Pilih Fakultas</option>
+						                        			<?php foreach ($fakultas as $row) {
+						                        				echo "<option value='$row->kode_fak'>".ucwords(strtolower($row->nama_fak))."</option>";
+						                        			} ?>
+						                        		</select>
+						                        	</div>
+						                        	<div class="form-group">
+						                        		<label for="kode_prodi">Program Studi Tujuan *</label>
+						                        		<select class="form-control" name="kode_prodi" id="kode_prodi" readonly>
+						                        			<option value="" hidden="">Pilih Program Studi</option>
+						                        		</select>
+						                        	</div>
+					                        	</div>
+					                        </div>
 				                </div>
 				                <hr>
 						        <button class="btn btn-primary pull-right">Selanjutnya</button>

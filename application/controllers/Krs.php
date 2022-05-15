@@ -21,8 +21,8 @@ class Krs extends CI_Controller {
 
 		if($id_mahasiswa_pt==NULL OR $id_semester==NULL){ $data['view']	='auth/404';$data['title']	='Error 404'; } else {
 		
-		$data['detail_mhs_pt']=json_decode($this->curl->simple_get(ADD_API.'mbkm/mahasiswa_pt?id_mahasiswa_pt='.$id_mahasiswa_pt))[0];
-		$data['aktivitas_mahasiswa'] = json_decode($this->curl->simple_get(ADD_API.'mbkm/anggota?id_mahasiswa_pt='.$id_mahasiswa_pt.'&id_smt='.$id_semester))[0];
+		$data['detail_mhs_pt']=json_decode($this->curl->simple_get(ADD_API.'aktivitas/mahasiswa_pt?id_mahasiswa_pt='.$id_mahasiswa_pt))[0];
+		$data['aktivitas_mahasiswa'] = json_decode($this->curl->simple_get(ADD_API.'aktivitas/anggota?mbkm=1&id_mahasiswa_pt='.$id_mahasiswa_pt.'&id_smt='.$id_semester))[0];
 
 		// if($data['detail_mhs_pt']->id_jns_keluar==0){
 			//check kuliah mahasiswa
@@ -371,12 +371,13 @@ class Krs extends CI_Controller {
 	
 	function take_kelas()
 	{
-		// $data_kirim=explode('-', $this->input->post('id_kelas_kuliah'));
 		$id_matkul = $this->input->post('id_matkul');
 		$status = $this->input->post('status');
+
 		$get_kode_mk=json_decode($this->curl->simple_get(ADD_API.'simak/matkul?id_matkul='.$id_matkul))[0];
 		$sudah_ada_kode_mk=json_decode($this->curl->simple_get(ADD_API.'mbkm/check_kode_mk_krs?id_mahasiswa_pt='.$this->input->post('id_mahasiswa_pt').'&active_smt='.$this->input->post('id_semester').'&kode_mk='.$get_kode_mk->kode_mk));
-		if($sudah_ada_kode_mk==0){
+
+		if($sudah_ada_kode_mk==0 AND $status == 1){
 			$krs=array(
 						'id_smt'			=> $this->input->post('id_semester'),
 						// 'id_kelas_kuliah' 	=> $data_kirim[0],
@@ -387,6 +388,16 @@ class Krs extends CI_Controller {
 			$url=ADD_API.'mbkm/krs_mhs';
 			//simpan krs
 			$result=json_decode($this->curl->simple_post($url,$krs));
+		} elseif ($status == 0) {
+			$krs=array(
+						'id_smt'			=> $this->input->post('id_semester'),
+						'id_matkul' 		=> $id_matkul,
+						'id_mahasiswa_pt' 	=> $this->input->post('id_mahasiswa_pt')
+						);
+
+			echo $url=ADD_API.'mbkm/batal_krs';
+
+			$result=json_decode($this->curl->simple_delete($url,$krs));
 		}
 	}
 	

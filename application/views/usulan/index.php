@@ -12,6 +12,7 @@
 				filter: grayscale(100%);
 			}
 		</style>
+
 		<table class="table table- mb-0 font-small-3 table-hovered">
 			<thead>
 				<tr style="background: #eaf3fc;">
@@ -26,6 +27,12 @@
 				</tr>
 			</thead>
 			<tbody>
+				<?php if (count($aktivitas_mahasiswa) < 1): ?>
+				<tr>
+					<td colspan="7" class="text-center"><i>Belum ada program kampus merdeka yang diambil.</i></td>
+				</tr>
+				<?php endif; ?>
+
 				<?php $no = 1; foreach($aktivitas_mahasiswa as $row): ?>
 				<tr>
 					<td class="text-center"><?= $no++ ?>.</td>
