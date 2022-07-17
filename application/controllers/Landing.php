@@ -34,6 +34,7 @@ class Landing extends CI_Controller {
 		$data['title']	= '';
 		$data['view']	= 'landing/index';
 		$data['pengumuman'] = json_decode($this->curl('https://api.kampusmerdeka.kemdikbud.go.id/mbkm/news/pengumuman?limit=4'));
+		$data['berita'] = json_decode($this->curl('https://unma.ac.id/wp-json/wp/v2/posts?categories=26&per_page=8'));
 
 		$this->load->view('landing/template', $data);
 	}
@@ -86,6 +87,7 @@ class Landing extends CI_Controller {
 	{
 		$arr = [];
 		$data = $this->input->post();
+		$data['id_mahasiswa_pt'] = str_replace(' ', '', $data['id_mahasiswa_pt']);
 
 		if(isset($data['token'])) {
 			if ($this->verify(trim($data['token']))) {
@@ -114,7 +116,7 @@ class Landing extends CI_Controller {
 					} else {
 						$cek_email = json_decode($this->curl->simple_get(ADD_API.'mbkm/cek_email?email='.$data['email']));
 
-						if (count($cek_email) > 0) {
+						if (count($cek_email) > 0 AND $data['kode_pt'] != '041043') {
 							$arr['error']['code'] = '404';
 							$arr['error']['message'] = 'Email yang didaftarkan sudah digunakan. Silahkan gunakan email yang lain.';	
 						} else {

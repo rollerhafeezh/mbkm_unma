@@ -31,7 +31,7 @@
 				<?php } ?>
 				<?php if($krs_log['status']): ?>
 					<a href="<?= base_url('krs/cetak_krs/'.$detail_mhs_pt->id_mahasiswa_pt.'/'.$semester->id_semester) ?><?php if($_SESSION['app_level']!=1){echo $detail_mhs_pt->id_mahasiswa_pt;}?>" target="_blank" class="btn btn-info">Cetak KRS</a>
-					<!-- <a href="<?= base_url('krs/cetak_ksm/'.$_SESSION['active_smt'].'/') ?><?php if($_SESSION['app_level']!=1){echo $detail_mhs_pt->id_mahasiswa_pt;}?>" target="_blank" class="btn btn-success">Cetak KSM</a> -->
+					<!-- <a href="<?= base_url('krs/cetak_ksm/'.$detail_mhs_pt->id_mahasiswa_pt.'/'.$semester->id_semester) ?><?php if($_SESSION['app_level']!=1){echo $detail_mhs_pt->id_mahasiswa_pt;}?>" target="_blank" class="btn btn-success btn-disabled">Cetak KSM</a> -->
 				<?php endif; ?>
 				</div>
 			</div>
@@ -175,15 +175,15 @@
 					</div>
 					<?php } ?>
 
-					<?php if($krs_log['isi']['validasi_keu']!='0'){ ?>
+					<?php if($krs_log['isi']['validasi_koordinator']!='0'){ ?>
 					<div class="col text-center">
 						Keuangan<br>
 						&nbsp;<br>
 						&nbsp;<br>
 						TTD<br>
 						&nbsp;<br>
-						<strong>(<?=$krs_log['isi']['validasi_keu']?>)</strong><br>
-						Tanggal : <?=$krs_log['isi']['tgl_validasi_keu']?>
+						<strong>(<?=$krs_log['isi']['validasi_koordinator']?>)</strong><br>
+						Tanggal : <?=$krs_log['isi']['tgl_validasi_koordinator']?>
 					</div>
 					<?php } ?>
 
@@ -203,8 +203,7 @@
 		<!-- DATA VALIDASI -->
 
 		<!-- PENGAMBILAN KRS -->
-		<?php if(!$krs_log['status']){ ?>
-
+		<?php if(!$krs_log['status'] AND !isset($detail_mhs_pt->nama_pt)){ ?>
 		<div class="col-12">
 			<?php 
 			if($pilih_krs) {
@@ -282,22 +281,196 @@
 			<?php }}} ?>
 		</div>
 		</div>
-
 		<?php } ?>
+
 		<div class="jml_krs">
 			<a href="#top">
-				<div id="err_msg" class="btn bg-info round white px-2">Jumlah SKS : <div id="kontrak_krs">0</div>/<!--BATAS SKS TULIS DISINI--> <?=$batas_sks?> SKS <div id="batas_sks" style="display:none">SKS yang kamu ambil terlalu banyak</div></div>
+				<div id="err_msg" class="btn bg-info round white px-2">Jumlah SKS : <div id="kontrak_krs">0</div>/<!--BATAS SKS TULIS DISINI--> 20 SKS <div id="batas_sks" style="display:none">SKS Matkul MBKM yang kamu ambil terlalu banyak.</div></div>
 			</a>
 		</div>
 		<!-- PENGAMBILAN KRS -->
 	</div>
+	</div>
 </div>
+
+<div class="modal fade text-left" id="modal_pilih_kelas" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" style="display: none;" aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" id="myModalLabel1">Pilih Kelas Kuliah</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
+			<div class="modal-body kelas_kuliah_detail"></div>
+		</div>
+	</div>
+</div>
+
+<?php if($aktivitas_mahasiswa->id_jenis_aktivitas_mahasiswa == 99 AND isset($detail_mhs_pt->nama_pt) AND $krs_log['isi']['validasi_krs'] != 1): ?>
+<div class="card box-shadow-0 border-warning">
+	<div class="card-header card-head-inverse bg-warning">
+		<h4 class="card-title text-white">Kontrak KRS </h4>
+	</div>
+	<div class="card-content collapse show">
+		<div class="card-body">
+			<ul class="nav nav-tabs d-none">
+			    <li class="nav-item active"><a href="#tab1" data-toggle="tab">Program Studi</a></li>
+			    <li class="nav-item"><a href="#tab2" data-toggle="tab">Kelas Kuliah</a></li>
+			</ul>
+			<div class="tab-content">
+			    <div class="tab-pane active" id="tab1">
+			    	<div class="alert bg-info alert-icon-left alert-arrow-left  mb-2" role="alert">
+						<span class="alert-icon"><i class="la la-info"></i></span>
+						Silahkan pilih program studi untuk melihat daftar mata kuliah yang bisa diambil.
+					</div>
+					<!-- DATA PRODI -->
+					<style type="text/css">
+						.container-fluid {padding: 0 !important;}
+					</style>
+					<table width="100%" class="table table-striped table-hover table-bordered dataTable" id="dataTables_kontrak" role="grid">
+						<thead>
+							<tr role="row">
+								<th width="1">No</th>
+								<th>Fakultas</th>
+								<th>Program Studi</th>
+								<th>Nama Kurikulum</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php
+							$co=1;
+							foreach($kurikulum as $key=>$value)
+							{
+							    echo'
+							    <tr>
+							        <td>'.$co.'</td>
+							        <td>'.$value->nm_fak.'</td>
+							        <td><a href="javascript:void(0)" onclick="kurikulum('.$value->id_kur.')">'.$value->nm_pro.'</a></td>
+							        <td>'.$value->nm_kurikulum_sp.'</td>
+							    </tr>
+							    ';
+							    $co++;
+							}
+							?>
+						</tbody>
+					</table>
+					<!-- DATA PRODI -->
+			    </div>
+
+			    <div class="tab-pane" id="tab2">
+			    	<div class="alert bg-info alert-icon-left alert-arrow-left  mb-2" role="alert">
+						<span class="alert-icon"><i class="la la-info"></i></span>
+						Silahkan ambil mata kuliah yang ingin dikontrak.
+					</div>
+					<button class="btn btn-sm" onclick="prev()">&laquo; Kembali</button>
+			    	<!-- DATA KURIKULUM -->
+			    	<input type="hidden" id="id_kur">
+					<table class="table w-100 table-striped table-hover table-bordered dataTable" id="dataTables_kurikulum" role="grid">
+						<thead>
+							<tr role="row">
+								<th width="1">SMT</th>
+								<th>Kode MK</th>
+								<th>Nama Mata Kuliah</th>
+								<th>Nama Mata Kuliah (En)</th>
+								<th width="1">SKS</th>
+								<!-- <th width="1">SMT</th> -->
+								<th width="1">Aksi</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+					<!-- DATA KURIKULUM -->
+			    </div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	var table_kurikulum
+
+	function kurikulum(id_kur) {
+		$('#id_kur').val(id_kur)
+		reload_kurikulum()
+	  	$('.nav-tabs > .active').next('li').find('a').trigger('click');
+	}
+
+	function prev() {
+	  	$('.nav-tabs > .active').find('a').trigger('click');
+	}
+
+	function reload_kurikulum() {
+		table_kurikulum.ajax.reload(null,false);
+	}
+
+	function ambil_mk()
+	{
+		var id_mahasiswa_pt = '<?=$detail_mhs_pt->id_mahasiswa_pt?>';
+		$.ajax({
+			type:"POST",
+			url: "<?=base_url('krs/take_kelas/')?>",
+			cache: false,
+			data:{id_matkul:arguments[0], id_mahasiswa_pt:id_mahasiswa_pt, id_semester: <?=$semester->id_semester?>, status: 1},
+			success: function(respond){
+				filter();
+				toastr.success('Mata kuliah berhasil diambil', 'MBKM UNMA')
+			}
+		});
+	};
+
+	$(document).ready(function() {
+		$('#dataTables_kontrak').DataTable({
+			paging:false,
+			sorting:false,
+			responsive: true,
+		})
+
+		table_kurikulum = $('#dataTables_kurikulum').DataTable({
+			paging:false,
+			sorting:false,
+			responsive: true,
+			"oLanguage": {
+		        "sEmptyTable": "Mata kuliah kampus merdeka tidak tersedia."
+		    },
+			ajax: {
+				url 	: "<?=base_url('krs/json_kurikulum/')?>",
+				type 	: 'GET',
+				data	: function(d) {
+					d.id_kur = $('#id_kur').val()
+				}
+			},
+			columns: [
+				{ data: 'smt', searchable:false, className: 'text-center'},
+				{ data: 'kode_mk', searchable:false},
+				{ data: 'nm_mk', searchable:false},
+				{ data: 'nm_mk_en', searchable:false},
+				{ data: 'sks_mk', searchable:false},
+				// { data: 'smt', searchable:false},
+				{ data: 'id_matkul', searchable:false, className: 'text-center', render: 
+					function ( data, type, row, meta ) {
+						return `<a href="javascript:void(0)" onclick="ambil_mk(${data})" class="text-info">Ambil</a>`;
+					}
+				},
+			],
+		})
+	});
+</script>	
+<?php endif; ?>
+
 <script type="text/javascript">
 var table
+
+function pilih_kelas(id_matkul, id_smt) {
+	$('.kelas_kuliah_detail').load('<?=base_url('krs/kelas_kuliah_detail?id_matkul=')?>'+id_matkul+'&id_smt='+id_smt);
+	$('#modal_pilih_kelas').modal('show')
+}
+
 function check()
 {
 	var total = $("#kontrak_krs").html();
-	var batas = <?=$batas_sks?>;
+	var batas = 20;
 	var x = confirm("Apakah yakin akan diajukan?");
 	if (x){	
 	
@@ -374,6 +547,23 @@ function smt(e)
 	$('#'+e).toggle();
 };
 
+function take_kelas_kuliah(val)
+{
+	var id_kelas_kuliah = val;
+	var id_mahasiswa_pt = '<?=$detail_mhs_pt->id_mahasiswa_pt?>';
+	$.ajax({
+		type:"POST",
+		url: "<?=base_url('krs/take_kelas_kuliah/')?>",
+		cache: false,
+		data:{id_kelas_kuliah:id_kelas_kuliah,id_mahasiswa_pt:id_mahasiswa_pt, id_semester: <?=$semester->id_semester?>, nama_pt: <?= (isset($detail_mhs_pt->nama_pt) ? '1' : '0') ?>},
+		success: function(respond){
+			filter()
+			toastr.success('Kelas berhasil dipilih', 'MBKM UNMA')
+			$('#modal_pilih_kelas').modal('hide')
+		}
+	});
+};
+
 function take_kelas()
 {
 	var state = $(`#L${arguments[0]}`).is(':checked') ? '1' : '0'
@@ -385,6 +575,11 @@ function take_kelas()
 			cache: false,
 			data:{id_matkul:arguments[0], id_mahasiswa_pt:id_mahasiswa_pt, id_semester: <?=$semester->id_semester?>, status: state},
 			success: function(respond){
+				if (state == 0) {
+					toastr.warning('Mata kuliah berhasil dihapus', 'MBKM UNMA')
+				} else {
+					toastr.success('Mata kuliah berhasil diambil', 'MBKM UNMA')
+				}
 				filter();
 			}
 		});
@@ -464,12 +659,16 @@ $(document).ready(function() {
 				{ data: 'id_krs', searchable:false,render : 
 					function ( data, type, row, meta ) {
 						if(row.status_krs==0){
-							return '<a href="#" onclick="batal('+row.id_krs+')">Batalkan</a>';
+							return '<a href="javascript:void(0)" onclick="batal('+row.id_krs+')">Batalkan</a>';
 						}else{
 							<?php if($_SESSION['app_level']!=3){ ?>
-								return 'n/a';
+								if (row.id_kelas_kuliah != null) {
+									return `<a href="<?= base_url('jadwal') ?>?mk=${row.id_kelas_kuliah}" target="_blank" class="text-info">Kuliah</a>`;
+								} else {
+									return '<a href="javascript:void(0)" onclick="pilih_kelas('+row.id_matkul+', '+row.id_smt+')">Pilih Kelas</a>';
+								}
 							<?php }else{ ?>
-								return '<a href="#" onclick="drop('+row.id_krs+')">Drop</a>';
+								return '<a href="javascript:void(0)" onclick="drop('+row.id_krs+')">Drop</a>';
 							<?php } ?>
 						}
 					}
@@ -512,7 +711,7 @@ $(document).ready(function() {
 		} );
 		
 		
-	} );
+} );
 
 </script>
 <style>

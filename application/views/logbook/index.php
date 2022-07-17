@@ -4,227 +4,277 @@
 	</div>
 	<div class="card-body">
 		<div class="row">
-			<div class="col-md-5">
-				<!-- Informasi Aktivitas -->
-				<fieldset style="border: 1px solid #BABFC7; margin: inherit;" class="p-1 unggah-berkas">
-					<legend style="width: inherit; font-size: inherit; margin: inherit;" class="font-small-3 pl-1 pr-1">
-						<b>Informasi Aktivitas</b>
-					</legend>
-
-					<table border="0" cellspacing="0" cellpadding="3" class="font-small-3">
-						<tr>
-							<td width="120" valign="top">Jenis Program</td>
-							<td valign="top">:</td>
-							<td><?= $aktivitas_mahasiswa->nama_jenis_aktivitas_mahasiswa ?></td>
-						</tr>
-						<tr>
-							<td>TA. Pelaksanaan</td>
-							<td>:</td>
-							<td><?= $aktivitas_mahasiswa->nama_semester ?></td>
-						</tr>
-						<tr>
-							<td>Program Studi</td>
-							<td>:</td>
-							<td><?= $detail->homebase ?></td>
-						</tr>
-						<tr>
-							<td>Lokasi</td>
-							<td>:</td>
-							<td><?= $aktivitas_mahasiswa->lokasi ?></td>
-						</tr>
-						<tr>
-							<td valign="top">Judul</td>
-							<td valign="top">:</td>
-							<td><?= strip_tags($aktivitas_mahasiswa->judul) ?></td>
-						</tr>
-						<tr>
-							<td valign="top">Jenis Anggota</td>
-							<td valign="top">:</td>
-							<td><?= $aktivitas_mahasiswa->jenis_anggota == '0' ? 'Personal' : 'Kelompok' ?></td>
-						</tr>
-					</table>
-				</fieldset>
-				<!-- Informasi Aktivitas -->
-				
-				<div class="clearfix d-block m-1"></div>
-
-				<!-- Informasi Peserta -->
-				<fieldset style="border: 1px solid #BABFC7; margin: inherit;" class="p-1 unggah-berkas">
-					<legend style="width: inherit; font-size: inherit; margin: inherit;" class="font-small-3 pl-1 pr-1">
-						<b>Informasi Peserta (<?= count($anggota) ?> Orang)</b>
-					</legend>
-					<style type="text/css">
-						.table td,.table  th {
-							padding: 10px !important;
-						}
-					</style>
-					<table border="0" cellspacing="0" class="w-100 table-sm table-hover font-small-3">
-						<thead>
-							<tr>
-								<!-- <th>No.</th> -->
-								<th>NPM</th>
-								<th>Nama Mahasiswa</th>
-								<th>Peran</th>
-							</tr>
-						</thead>
-						<tbody>
-							<?php $no = 1; $jenis_peran = ['-', 'Ketua', 'Anggota', 'Personal']; foreach ($anggota as $r_anggota): ?>
-							<tr>
-								<!-- <td><?= $no; $no++ ?>.</td> -->
-								<td><?= $r_anggota->id_mahasiswa_pt ?></td>
-								<td><?= $r_anggota->nm_pd ?></td>
-								<td><?= $jenis_peran[$r_anggota->jenis_peran] ?></td>
-							</tr>
-							<?php endforeach; ?>
-						</tbody>
-					</table>
-				</fieldset>
-				<!-- Informasi Peserta -->
-			</div>
+			<?php $this->load->view('logbook/informasi') ?>
 
 			<div class="w-100 d-block d-md-none m-1"></div>
 
-			<div class="col-md-7">
-				<fieldset style="border: 1px solid #BABFC7; margin: inherit;" class="px-1 unggah-berkas">
-					<legend style="width: inherit; font-size: inherit; margin: inherit;" class="font-small-3 pl-1 pr-1">
-						<b>Logbook Harian / Mingguan / Bulanan</b>
+			<div class="col-md-8">
+				<fieldset style="border: 1px solid #BABFC7; margin: inherit; font-size: 90%" class="py-1 unggah-berkas">
+					<legend style="width: inherit; font-size: inherit; margin: inherit;" class="pl-1 pr-1">
+						<b>Aktivitas : Logbook <i class="fa fa-info-circle" data-toggle="popover" data-original-title="Tips Mengisi Logbook" data-html="true" data-content="
+							<ol style='padding: 0 0 0 15px;'>
+								<li>Laporkan semua kegiatan harian tim dan kegiatanmu</li>
+								<li>Usahakan lebih dari 25 kata</li>
+								<li>Tambahkan informasi kelemahan dan kelebihan agenda kegiatan</li>
+								<li>Lampirkan berkas pendukung, seperti lampiran/foto kegiatan</li>
+								<li>Usahakan isi tepat waktu</li>
+								<li>Jangan lupa salin logbook pada dokumen lain seperti word</li>
+							</ol>
+							"></i></b>
 					</legend>
 
-					<form class="form-kirim-materi w-100" enctype="multipart/form-data">
-						<div class="row mt-1">
-								<div class="col-md-12">
-									<textarea class="form-control font-small-3" placeholder="Tulis Sesuatu ..." rows="5" name="isi" required=""></textarea>
-
-									<select class="form-control mt-1" name="id_kegiatan">
-										<option value="1">Logbook Harian</option>
-										<option value="2">Logbook Mingguan</option>
-										<option value="3">Logbook Bulanan</option>
-										<option value="4">Laporan Akhir</option>
-									</select>
-								</div>
-								<div class="w-100 d-block mt-1"></div>
-								<div class="col-md-8 font-small-3" style="vertical-align: middle; line-height: 2.4">
-									<label class="form-help text-info" for="unggah-berkas">
-					                    <input type="file" name="file" class="d-none" id="unggah-berkas" onchange="lampirkan_dokumen(this)">
-					                    <span title="Maksimal 5 MB"><i class="ft-paperclip"></i>  Lampirkan Berkas</span>
-					                </label>
-								</div>
-								<div class="col-md-4 text-right text-nowrap">
-									<!-- <button type="button" class="w-50 btn btn-info btn-sm" data-toggle="collapse" data-target="#meet-collapse" onclick="api.executeCommand('toggleAudio'); api.executeCommand('toggleVideo'); $(this).toggleClass('btn-info btn-danger')" ><i class="ft-video"></i> MEET</button> -->
-									<button type="submit" class="w-50 btn btn-success btn-sm"><i class="ft-navigation"></i> KIRIM</button>
-								</div>
-						</div>
-					</form>
-					<hr>
-
-					<div class="aktivitas overflow-auto px-1" style="height: 95%">
-						<div class="text-center font-small-3 text-italic p-1">
-							<img src="https://simakng.unma.ac.id/assets/images/sticky%20battle.gif" class="d-block w-100">
-							<i class="fa fa-spin fa-spinner"></i> Sedang Memuat Riwayat Logbook. Silahkan Tunggu ...
-						</div>
-					</div>
+					<table class="table dataTable table-striped table-bordered" id="datatable_aktivitas">
+						<thead>
+							<tr>
+								<th width="1">No</th>
+								<th width="1">Tgl. Kegiatan</th>
+								<th>Keterangan Logbook</th>
+								<th width="1">Status</th>
+								<th width="70">Aksi</th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>	
 				</fieldset>
 			</div>
 		</div>
 	</div>
 </div>
 
+<div class="modal fade text-left" id="modal_tambah_logbook" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" id="myModalLabel1"><span class="act">Tambah</span> Logbook</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body p-3">
+				<form id="form_tambah_logbook" onsubmit="event.preventDefault(); simpan_logbook(this)">
+					<input type="hidden" name="id_aktivitas" value="<?= $aktivitas_mahasiswa->id_aktivitas ?>">
+					<input type="hidden" name="jenis_bimbingan" value="1">
+					<input type="hidden" name="id_bimbingan" id="id_bimbingan">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group">
+								<label for="tgl_kegiatan">Tanggal Kegiatan *</label>
+								<input type="date" name="tgl_kegiatan" id="tgl_kegiatan" value="<?= date('Y-m-d') ?>" class="form-control" required="">
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group">
+								<label for="isi">Deskripsi Logbook *</label>
+								<textarea name="isi" id="isi" class="form-control"></textarea>
+								<small class="text-muted">Deskripsi kegiatan (<i>logbook</i>) minimal 25 karakter</small>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group">
+								<label for="file">Lampiran (.pdf)</label>
+								<input type="file" class="form-control" name="file" id="file" accept="application/pdf">
+								<a href="#" style="display: none" class=" file" target="_blank"><small><i class="fa fa-download"></i> Download Berkas</small></a>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group">
+								<label for="file_gambar">Lampiran Gambar / Foto (.jpeg, .jpg, .png)</label>
+								<input type="file" class="form-control" name="file_gambar" id="file_gambar" accept="image/*">
+								<a href="#" style="display: none" class=" file_gambar" target="_blank"><small><i class="fa fa-download"></i> Download Berkas</small></a>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group">
+								<button type="submit" class="btn btn-info d-block w-100 btn_simpan_logbook">SIMPAN</button>
+							</div>
+						</div>
+					</div>
+				</form>	
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade text-left" id="modal_detail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" id="myModalLabel1">Detail Logbook</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body p-3 detail">
+				<img src="https://i.pinimg.com/originals/62/c3/79/62c379ae3baad2a6f3810a8ad1a19d47.gif" width="50%" class="d-block" style="margin: 0 auto" alt="Loading ...">
+			</div>
+		</div>
+	</div>
+</div>
+
 <script>
-	var is_open = false
-	var source = new EventSource('/usulan/sse')
-	var offline
+	var table
 
-	source.onmessage = function(event) {
-		if (!$('input').is(':focus')) {
-			if (areAllInputsEmpty() && $('input[type="file"]:hover').length == 0 && is_open == false) {
-				aktivitas()
-				// console.log('aktivitas()')
-			}
-		}
-
-		// console.log(is_open, $('input[type="file"]:hover').length, $('input').is(':focus'), areAllInputsEmpty())
-	}
-
-	$('input[type="file"]').click(function() {
-		is_open = true
-	})
-
-	function areAllInputsEmpty() {
-	  return $("input").filter(function() {
-	    return $.trim($(this).val()).length > 0
-	  }).length == 0
-	}
-
-	function aktivitas()
+	function edit()
 	{
-		fetch('/usulan/riwayat_logbook/1') // Mahasiswa
+		$('#modal_tambah_logbook').modal('show')
+		$('.act').html('Edit')
+		fetch('<?= base_url('logbook/detail/') ?>' + arguments[0] + '/' + 'edit')
+		.then(response => response.json())
+		.then(json => {
+			$('.file').show()
+			$('.file_gambar').show()
+
+			$('#id_bimbingan').val(json.id_bimbingan)
+			$('#tgl_kegiatan').val(json.tgl_kegiatan)
+			$('.file').attr('href', json.file)
+			$('.file_gambar').attr('href', json.file_gambar)
+			CKEDITOR.instances.isi.setData(json.isi);
+		})
+	}
+
+	$('#modal_tambah_logbook').on('hidden.bs.modal', function () {
+		$('.act').html('Tambah')
+		$('.file').hide()
+		$('.file_gambar').hide()
+		$('#tgl_kegiatan').val('')
+		$('#id_bimbingan').val('')
+		CKEDITOR.instances.isi.setData('');
+	});
+
+	function detail()
+	{
+		$('#modal_detail').modal('show')
+		fetch('<?= base_url('logbook/detail/') ?>' + arguments[0])
 		.then(response => response.text())
 		.then(text => {
-			document.querySelector('.aktivitas').innerHTML = text
-		})
-		.then( () => {
-			timeago.render(document.querySelectorAll(".timeago"), "id_ID")
-			$('.tooltip').hide()
-			$('[data-toggle="tooltip"]').tooltip()
+			document.querySelector('.detail').innerHTML = text
 		})
 	}
 
-	var upload;
-	function lampirkan_dokumen(e) {
-		e.parentElement.children[1].innerHTML = `<span class="text-nowrap overflow-hidden" style="width: 200px; text-overflow: ellipsis;">${e.files[0].name}</span> - <a onclick="reset(this, event)" class="text-danger">hapus</a>`
-		upload = e
+	$(document).ready(function() {
+		$('[data-toggle="popover"]').popover()
+		$('[data-toggle="tooltip"]').tooltip()
+		table = $('#datatable_aktivitas').DataTable({
+			responsive: true,
+			"autoWidth" : false,
+			ajax: {
+				url : "<?=base_url('logbook/json_bimbingan/')?>",
+				type 	: 'GET',
+				data	: { id_user:'<?= $_SESSION['id_user'] ?>', id_aktivitas: <?= $aktivitas_mahasiswa->id_aktivitas ?> },
+			},
+			dom: 	"<'row'<'col-sm-12 col-md-6'B><'col-sm-12 col-md-6'f>>" +
+					"<'row'<'col-sm-12'tr>>" +
+					"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+			buttons: [
+				{
+					extend:'pageLength',
+					text:'Data',
+					className:'btn btn-light btn-sm',
+				},
+				{
+					extend:'pdf',
+					className:'btn btn-danger btn-sm',
+				},
+				{
+	                text: '<i class="fa fa-plus"></i> Tambah Logbook',
+	                action: function ( e, dt, node, config ) {
+	                    $('#modal_tambah_logbook').modal('show');
+	                },
+					className:'btn btn-info btn-sm',
+	            }
+			],
+			order: [[1, 'desc']],
+			columns: [
+				{ data: 'id_bimbingan', searchable:false, className: 'text-center'},
+				{ data: 'tgl_kegiatan', className: 'text-center'},
+				{ data: 'isi', render : 
+					function ( data, type, row, meta ) {
+						// return jQuery(data).text()
+						let doc = new DOMParser().parseFromString(data, 'text/html');
+   						return doc.body.textContent || "";
+					}
+				},
+				{ data: 'status', searchable:false, render : 
+					function ( data, type, row, meta ) {
+						if (data == '0') {
+							return '<span class="badge badge-info">Awaiting</span>'
+						} else if (data == '1') {
+							return '<span class="badge badge-warning">Revision</span>'
+						} else {
+							return '<span class="badge badge-success">Accepted</span>'
+						}
+					}
+				},
+				{ data: 'id_bimbingan', searchable:false, className: 'text-center', render : 
+					function ( data, type, row, meta ) {
+						// const today = new Date().getFullYear()+'-'+("0"+(new Date().getMonth()+1)).slice(-2)+'-'+("0"+new Date().getDate()).slice(-2)
+						if (row.status == '2') {
+							return `<a href="javascript:void(0)" onclick="detail(${row.id_bimbingan})" class="badge badge-info"><i class="fa fa-search"></i></a>`
+						} else {
+							return `<a href="javascript:void(0)" data-toggle="tooltip" title="Ubah Logbook" onclick="edit(${row.id_bimbingan})" class="badge badge-success text-white"><i class="fa fa-edit"></i></a>
+								<a href="javascript:void(0)" data-toggle="tooltip" title="Hapus Logbook" onclick="hapus(${row.id_bimbingan})" class="badge badge-warning"><i class="fa fa-trash text-white"></i></a>
+								<a href="javascript:void(0)" data-toggle="tooltip" title="Lihat Logbook" onclick="detail(${row.id_bimbingan})" class="badge badge-info"><i class="fa fa-search"></i></a>`
+						}
+					}
+				},
+			],
+		})
+
+		table.on('order.dt search.dt', function () {
+	        let i = 1;
+	 
+	        table.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
+	            this.data(i++);
+	        });
+	    }).draw();
+	})
+
+	function simpan_logbook(e) {
+		if( document.querySelector("#file").files.length == 0 || document.querySelector("#file_gambar").files.length == 0 ){
+		    var konfirmasi = confirm('Simpan logbook tanpa lampiran berkas ?')
+		    if (!konfirmasi) {
+		    	return
+		    }
+		}
+
+		for (instance in CKEDITOR.instances) {
+            CKEDITOR.instances[instance].updateElement();
+    	}
+
+		var formData = new FormData(e)
+
+		fetch('<?= base_url('logbook/kirim') ?>', { method: 'POST', body: formData })
+		.then(response => response.text())
+		.then(text => {
+			filter()
+			CKEDITOR.instances.isi.setData('');
+
+			$('#form_tambah_logbook').trigger("reset");
+			$('#modal_tambah_logbook').modal('hide')
+			toastr.success('Logbook berhasil disimpan', 'MBKM UNMA')
+		})
 	}
+	CKEDITOR.replace( 'isi', {
+		removeButtons: 'Cut,Copy,Paste,Undo,Redo,Anchor,Subscript,Superscript,Strikethrough',
+	});
 
-	function reset(e, event) {
-		event.preventDefault()
-		var inputFile = e.parentElement.parentElement.children[0]
-		var label = e.parentElement
+	function hapus()
+	{
+		var konfir = prompt('Tulis "HAPUS" untuk menghapus logbook.')
+		if (konfir == 'HAPUS') {
+			var data = new FormData()
+			data.append('id_bimbingan', arguments[0])
 
-		$(inputFile).val('')
-		label.innerHTML = '<i class="ft-paperclip"></i>  Lampirkan Berkas'
-		is_open = false
-	}
-
-	function kirim(e, event) {
-		if (e.value != '' && event.keyCode == '13') {
-			e.setAttribute('disabled', 'true')
-			var formData = new FormData()
-			formData.append('isi', e.value)
-			formData.append('id_parent', e.dataset.id_parent)
-			formData.append('id_aktivitas', e.dataset.id_aktivitas)
-			formData.append('jenis_bimbingan', '1')
-			
-			if (upload)
-				formData.append('file', upload.files[0])
-
-			fetch('/bimbingan/kirim', {
-				method: 'POST',
-				body: formData
-			})
+			fetch('<?= base_url('logbook/hapus') ?>', { method: 'POST', body: data })
 			.then(response => response.text())
 			.then(text => {
-				aktivitas()
-				is_open = false
+				toastr.success('Logbook berhasil dihapus', 'MBKM UNMA')
+				filter()
 			})
 		}
 	}
 
-	function hapus(e) {
-		var konfirmasi = confirm('Bade Dihapus ?')
-		if (konfirmasi) {
-			$('input').attr('disabled', 'true')
-			fetch('/bimbingan/hapus', {
-				method: 'POST',
-				body: new URLSearchParams({ 
-						id_bimbingan: e.dataset.id_bimbingan, 
-						file: e.dataset.file
-					})
-			})
-			.then(response => response.text())
-			.then(text => {
-				aktivitas()
-				is_open = false
-			})
-		}
+	function filter() {
+		table.ajax.reload(null,false);
 	}
 </script>

@@ -7,7 +7,8 @@ class Krs extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->model('Simak_model');
-		//if($_SESSION['app_level']!=1){$this->load->view('auth/401.php'); exit();}
+		// if($_SESSION['app_level']!=1){$this->load->view('auth/401.php'); exit();}
+		if(!$_SESSION){$this->load->view('auth/401.php'); exit();}
 	}
 
 	public function add($id_mahasiswa_pt=null, $id_semester=null)
@@ -21,7 +22,7 @@ class Krs extends CI_Controller {
 
 		if($id_mahasiswa_pt==NULL OR $id_semester==NULL){ $data['view']	='auth/404';$data['title']	='Error 404'; } else {
 		
-		$data['detail_mhs_pt']=json_decode($this->curl->simple_get(ADD_API.'aktivitas/mahasiswa_pt?id_mahasiswa_pt='.$id_mahasiswa_pt))[0];
+		$data['detail_mhs_pt']=json_decode($this->curl->simple_get(ADD_API.'mbkm/mahasiswa_pt?id_mahasiswa_pt='.$id_mahasiswa_pt))[0];
 		$data['aktivitas_mahasiswa'] = json_decode($this->curl->simple_get(ADD_API.'aktivitas/anggota?mbkm=1&id_mahasiswa_pt='.$id_mahasiswa_pt.'&id_smt='.$id_semester))[0];
 
 		// if($data['detail_mhs_pt']->id_jns_keluar==0){
@@ -30,20 +31,7 @@ class Krs extends CI_Controller {
 			if(!$data['kuliah_mahasiswa']) {
 				redirect("krs/add/$id_mahasiswa_pt/$id_semester",'refresh');
 			}
-			//check lunas
-			// print_r($data['kuliah_mahasiswa']); exit();
-			// $smt=str_split($id_semester);
-			//check semester terlebih dahulu, ganjil or genap or pendek
-			// if($smt[4]==1){
-			// 	if($data['detail_mhs_pt']->mulai_smt>$id_semester){
-			// 		//exit();
-			// 	}else{
-			// 		$data['lunas']=$this->Simak_model->check_tagihan($id_mahasiswa_pt);
-			// 	}
-			// }else{
-			// 	$data['lunas']='ok';
-			// }
-			
+
 			$data['cek_krs']=json_decode($this->curl->simple_get(ADD_API.'simak/krs_mhs_cek?id_mahasiswa_pt='.$id_mahasiswa_pt.'&id_smt='.$id_semester));
 			
 			/*form helpder & validation*/
@@ -61,19 +49,6 @@ class Krs extends CI_Controller {
 				//create note mahasiswa
 				$note=$this->patch_note($id_mhs_pt, $id_semester);
 				
-				//creator,id_pesan
-				// $id_notif=$this->Notif_model->push_notif($id_mhs_pt,2);
-				
-				//var_dump($id_notif); exit();
-				// $this->Notif_model->user_notif($data['detail_mhs_pt']->nidn,2,$id_notif);
-				
-				//menghapus semua record krs pada semester berjalan ketika kontrak ulang
-				//$this->remove_krs();
-				
-				//proses simpan krs
-				//$save=$this->store_krs();
-				
-				
 				if($note){
 					$this->session->set_flashdata('msg', 'Kontrak Mata Kuliah Tersimpan');
 					$this->session->set_flashdata('color', 'success');
@@ -90,6 +65,7 @@ class Krs extends CI_Controller {
 			$smt_lalu=$id_semester-10;
 			$ips_smt_lalu=json_decode($this->curl->simple_get(ADD_API.'simak/kuliah_mahasiswa_get?id_mahasiswa_pt='.$id_mahasiswa_pt.'&id_smt='.$smt_lalu));
 			$semester = json_decode($this->curl->simple_get(ADD_API.'ref/smt?id_smt='.$id_semester))[0];
+			$data['kurikulum'] = json_decode($this->curl->simple_get(ADD_API.'simak/kurikulum?kur_aktif=1'));
 
 			$data['batas_sks']	=$this->batas_sks($id_mahasiswa_pt, $id_semester);
 			$data['assets_css']=	array(	"themes/vendors/css/tables/datatable/datatables.min.css");
@@ -103,6 +79,34 @@ class Krs extends CI_Controller {
 		// 	$data['title']	='Kartu Rencana Studi';
 		// 	$data['view']	='krs/lulus';
 		// }
+		}
+			
+			$this->load->view('lyt/index',$data);
+	}
+
+	public function konversi($id_mahasiswa_pt=null, $id_semester=null)
+	{
+		//cek mahasiswa atau bukan
+		if(	$_SESSION['app_level']!=1){
+			$id_mahasiswa_pt=$id_mahasiswa_pt;
+		}else{
+			$id_mahasiswa_pt=$_SESSION['id_user'];
+		}
+
+		if($id_mahasiswa_pt==NULL OR $id_semester==NULL){ $data['view']	='auth/404';$data['title']	='Error 404'; } else {
+		
+		$data['detail_mhs_pt']=json_decode($this->curl->simple_get(ADD_API.'mbkm/mahasiswa_pt?id_mahasiswa_pt='.$id_mahasiswa_pt))[0];
+		$data['aktivitas_mahasiswa'] = json_decode($this->curl->simple_get(ADD_API.'aktivitas/anggota?mbkm=1&id_mahasiswa_pt='.$id_mahasiswa_pt.'&id_smt='.$id_semester))[0];
+			
+		$data['krs_log']=json_decode($this->curl->simple_get(ADD_API.'mbkm/krs_log?id_mahasiswa_pt='.$id_mahasiswa_pt.'&id_smt='.$id_semester),true);
+		$data['semester'] = json_decode($this->curl->simple_get(ADD_API.'ref/smt?id_smt='.$id_semester))[0];
+
+		$data['batas_sks']	=$this->batas_sks($id_mahasiswa_pt, $id_semester);
+		$data['assets_css']=	array(	"themes/vendors/css/tables/datatable/datatables.min.css");
+		$data['assets_js']=		array(	"themes/vendors/js/tables/datatable/datatables.min.js");
+		$data['title']	='Konversi Nilai';
+		$data['view']	='krs/konversi';
+
 		}
 			
 			$this->load->view('lyt/index',$data);
@@ -368,6 +372,22 @@ class Krs extends CI_Controller {
 		var_dump($ada);
 		echo $mk->kode_mk;
 	}
+
+	function take_kelas_kuliah()
+	{
+		$data_kirim=explode('-', $this->input->post('id_kelas_kuliah'));
+		$krs=array(
+					'pmm'				=> $this->input->post('pmm'),
+					'id_smt'			=> $this->input->post('id_semester'),
+					'id_kelas_kuliah' 	=> $data_kirim[0],
+					'id_matkul' 		=> $data_kirim[1],
+					'id_mahasiswa_pt' 	=> $this->input->post('id_mahasiswa_pt')
+					);
+		// print_r($krs);
+		$url=ADD_API.'mbkm/krs_mhs';
+		//simpan krs
+		$result=json_decode($this->curl->simple_post($url,$krs));
+	}
 	
 	function take_kelas()
 	{
@@ -424,6 +444,50 @@ class Krs extends CI_Controller {
 		$krs=json_decode($this->curl->simple_get(ADD_API.'datatable/krs_mhs_mbkm?id_mahasiswa_pt='.$id_mhs_pt.'&active_smt='.$this->input->get('id_semester')));
 		echo json_encode($krs);
 	}
+
+	function json_nilai_transfer()
+	{
+		$krs=json_decode($this->curl->simple_get(ADD_API.'datatable/nilai_transfer?id_aktivitas='.$this->input->get('id_aktivitas')));
+		echo json_encode($krs);
+	}
+
+	function json_kurikulum()
+	{
+		$kurikulum=json_decode($this->curl->simple_get(ADD_API.'datatable/kurikulum_detail?mbkm=1&id_kurikulum='.$this->input->get('id_kur')));
+		echo json_encode($kurikulum);
+	}
+
+	function simpan_nilai_transfer()
+	{
+		$data = $this->input->post();
+		$data['id_mahasiswa_pt'] = $_SESSION['id_user'];
+		unset($data['matkul_diakui']);
+		$simpan=json_decode($this->curl->simple_post(ADD_API.'mbkm/simpan_nilai_transfer', $data));
+		echo json_encode($simpan);
+	}
+
+	function hapus_nilai_transfer($id_nilai_transfer)
+	{
+		$delete = json_decode($this->curl->simple_get(ADD_API.'mbkm/hapus_nilai_transfer?id_nilai_transfer='.$id_nilai_transfer.'&id_mahasiswa_pt='.$_SESSION['id_user']));
+		echo $delete;
+	}
+
+	function search_matkul()
+	{
+		$matkul = json_decode($this->curl->simple_get(ADD_API.'mbkm/matkul_search?search_item='.$this->input->post('keyword')));
+		
+		$data = [];
+		$i = 0;
+		foreach ($matkul as $row) {
+		    $data[$i]['code'] = $row->kode_mk;
+		    $data[$i]['id'] = $row->id_matkul;
+		    $data[$i]['sks'] = $row->sks_mk;
+		    $data[$i]['name'] = '('.$row->nm_kurikulum_sp.') '. $row->kode_mk.' - '.$row->nm_mk.' - '.$row->sks_mk.' SKS';
+		    $i++;
+		}
+		$arr['data'] = $data;
+		echo json_encode($arr);
+	}
 	
 	function json_krs_temp()
 	{
@@ -437,7 +501,19 @@ class Krs extends CI_Controller {
 	function kelas_kuliah_detail($id_matkul=NULL)
 	{
 		$data['id_matkul']=$this->input->get('id_matkul');
-		$data['jml_kontrak']=$this->input->get('jml_kontrak');
+		$data['id_smt']=$this->input->get('id_smt');
+		
+		$smt=str_split($this->input->get('id_smt'));
+		$data['detail_mhs_pt']=json_decode($this->curl->simple_get(ADD_API.'simak/mahasiswa_pt?id_mahasiswa_pt='.$_SESSION['id_user']))[0];
+		//check semester terlebih dahulu, ganjil or genap or pendek
+		if($smt[4]==1){
+			if($data['detail_mhs_pt']->mulai_smt < $this->input->get('id_smt')) {
+				$data['lunas']=$this->Simak_model->check_tagihan($_SESSION['id_user']);
+			}
+		}else{
+			$data['lunas']='ok';
+		}
+
 		$this->load->view('krs/kelas_kuliah_detail',$data);
 	}
 	
@@ -576,9 +652,10 @@ class Krs extends CI_Controller {
 		if($id_smt==NULL){$id_smt=$id_semester;}else{$id_smt=$id_smt;}
 		if($_SESSION['app_level']==1){$id_mhs_pt=$_SESSION['id_user'];}else{$id_mhs_pt=$id_mhs_pt;}
 		$krs 	= json_decode($this->curl->simple_get(ADD_API.'datatable/krs_mhs_mbkm?id_mahasiswa_pt='.$id_mhs_pt.'&active_smt='.$id_smt), true);
-		$mhs 	= json_decode($this->curl->simple_get(ADD_API.'simak/mahasiswa_pt?id_mahasiswa_pt='.$id_mhs_pt));
+		$mhs 	= json_decode($this->curl->simple_get(ADD_API.'mbkm/mahasiswa_pt?id_mahasiswa_pt='.$id_mhs_pt));
 		$validasi 	= json_decode($this->curl->simple_get(ADD_API.'datatable/validasi_krs?db_mbkm=1&id_mahasiswa_pt='.$id_mhs_pt.'&id_smt='.$id_smt),true);
-		$data['aktivitas_mahasiswa'] = json_decode($this->curl->simple_get(ADD_API.'mbkm/anggota?id_mahasiswa_pt='.$id_mhs_pt.'&id_smt='.$id_smt))[0];
+
+		$data['aktivitas_mahasiswa'] = json_decode($this->curl->simple_get(ADD_API.'aktivitas/anggota?mbkm=1&id_mahasiswa_pt='.$id_mhs_pt.'&id_smt='.$id_smt))[0];
 
 		$data['validasi'] = $validasi;
 		$data['krs'] = $krs;
@@ -617,14 +694,14 @@ class Krs extends CI_Controller {
 		}
 	}
 	
-	public function cetak_ksm($id_smt=null,$id_mhs_pt=null)
+	public function cetak_ksm($id_mhs_pt=null,$id_smt=null)
 	{
 		if($id_smt==NULL){$id_smt=$id_semester;}else{$id_smt=$id_smt;}
 		if($_SESSION['app_level']==1){$id_mhs_pt=$_SESSION['id_user'];}else{$id_mhs_pt=$id_mhs_pt;}
 		
-		$krs 	= json_decode($this->curl->simple_get(ADD_API.'datatable/krs_mhs?id_mahasiswa_pt='.$id_mhs_pt.'&active_smt='.$id_smt), true);
-		$mhs 	= json_decode($this->curl->simple_get(ADD_API.'simak/mahasiswa_pt?id_mahasiswa_pt='.$id_mhs_pt));
-		$validasi 	= json_decode($this->curl->simple_get(ADD_API.'datatable/validasi_krs?id_mahasiswa_pt='.$id_mhs_pt.'&id_smt='.$id_smt),true);
+		$krs 	= json_decode($this->curl->simple_get(ADD_API.'datatable/krs_mhs_mbkm?id_mahasiswa_pt='.$id_mhs_pt.'&active_smt='.$id_smt), true);
+		$mhs 	= json_decode($this->curl->simple_get(ADD_API.'mbkm/mahasiswa_pt?id_mahasiswa_pt='.$id_mhs_pt));
+		$validasi 	= json_decode($this->curl->simple_get(ADD_API.'datatable/validasi_krs?db_mbkm=1&id_mahasiswa_pt='.$id_mhs_pt.'&id_smt='.$id_smt),true);
 		if(!$validasi['data']) { echo'<img src="https://i.imgur.com/jYlJHXO.png"><br>Boooooooooo!!!!'; 
 		}else{
 		//var_dump($validasi); exit();
@@ -633,8 +710,16 @@ class Krs extends CI_Controller {
 		$data['mhs'] = $mhs[0];
 		$data['id_smt'] = $id_smt;
 
+		$data['aktivitas_mahasiswa'] = json_decode($this->curl->simple_get(ADD_API.'aktivitas/anggota?mbkm=1&id_mahasiswa_pt='.$id_mhs_pt.'&id_smt='.$id_smt))[0];
+
+
 		$mpdf = new \Mpdf\Mpdf();
-		//$this->load->view('krs/cetak_ksm', $data);	
+		//$this->load->view('krs/cetak_ksm', $data);
+		if (isset($mhs[0]->nama_pt)) {
+			echo $template = $this->load->view('krs/cetak_ksm', $data, true);
+			// $mpdf->WriteHTML($template);	
+			// $mpdf->Output('nilai/cetak_ksm.pdf', 'D');
+		}
 		if($validasi['data'][0]['validasi_krs']=='0' or $validasi['data'][0]['validasi_aka']=='0' or $validasi['data'][0]['validasi_keu']=='0' or $validasi['data'][0]['validasi_prodi']=='0') {
             echo '<h2> Status Validasi Belum Lengkap</h2>';
             echo '<ol>

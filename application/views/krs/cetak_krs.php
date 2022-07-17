@@ -18,8 +18,11 @@
     <body>
     	<img src="<?= base_url('assets/images/LOGO KRS.png') ?>" style="height: 60px; float: left; margin-left: 50px;" >
         <p align="center">
+            <b class="judul">KEMENTERIAN PENDIDIKAN, KEBUDAYAAN, RISET DAN TEKNOLOGI</b> <br> 
             <b class="judul">UNIVERSITAS MAJALENGKA</b> <br> 
+            <?php if (!isset($mhs->nama_pt)): ?>
             <b class="judul"><?= $mhs->nama_fak ?></b> <br>
+            <?php endif; ?>
             <small>Jl. KH. Abdul Halim No. 103 Majalengka 45418</small>
         </p>
         <br>
@@ -35,7 +38,7 @@
                 <td width="80" valign="top">Nama</td>
                 <td valign="top">: <?= $mhs->nm_pd ?></td>
                 <td valign="top" width="80">Prodi</td>
-                <td valign="top">: <?= explode(' - ', $mhs->homebase)[1] ?></td>
+                <td valign="top">: <?= isset($mhs->nama_pt) ? $mhs->nama_prodi.'<br> &nbsp;&nbsp;'.$mhs->nama_pt : explode(' - ', $mhs->homebase)[1] ?></td>
             </tr>
             <tr>
                 <td valign="top">NPM</td>
@@ -84,25 +87,41 @@
                 </tr>
             </tbody>
         </table>
-		<div class="row my-2">
+		<!-- <div class="row my-2">
 			<div class="col-3 h4">Catatan Dosen Wali : </div>
 			<div class="col-9"><?=($validasi['data'][0]['isi_catatan'])?:'-'?></div>
-		</div>
-        <table width="100%" border="0" style="position: relative; right : 0;">
+		</div> -->
+        <br><br>
+        <table width="100%" border="0" style="position: relative; right : 0; width: 100%">
             <tr>
-                <td align="center">
+                <td align="center" width="50%">
                     <br><br>
 
                     Mahasiswa<br><br><br>TTD<br><br>
                     <u><b><?= $mhs->nm_pd ?></b></u><br>
                 </td>
-                <td align="center">
+                <td align="center" width="50%">
                     Majalengka, <?= ($validasi['data'][0]['tgl_acc'])?date_indo($validasi['data'][0]['tgl_acc']):date_indo(date('Y-m-d')); ?><br>
 
+                    <?php if(!isset($mhs->nama_pt)): ?>
                     Dosen Wali<br><br><?=($validasi['data'][0]['validasi_krs']==1)?'TTD':''?><br><br><br>
                     <u><b><?= $mhs->nm_sdm ?></b></u><br>
+                    <?php else: ?>
+                        <br><br>
+                    Wakil Rektor I<br><br><br><br><br>
+                    <u><b>JAKA SULAKSANA, Ph.D</b></u><br>NIDN. 0401047701<br>
+                    <?php endif; ?>
                 </td>
             </tr>
+            <?php if ($validasi['data'][0]['validasi_prodi']!='0' AND !isset($mhs->nama_pt)): ?>
+            <tr>
+                <td align="center" colspan="2">
+                    <br>
+                    Ketua Program Studi<br><br>TTD<br><br><br>
+                    <u><b><?= $validasi['data'][0]['validasi_prodi'] ?></b></u><br>
+                </td>
+            </tr>
+            <?php endif; ?>
         </table>
         <br>
         Catatan:<br>

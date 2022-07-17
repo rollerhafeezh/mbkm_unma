@@ -1,12 +1,12 @@
 <form id="daftar-mahasiswa" onsubmit="event.preventDefault(); daftar(this)">
-	<div class="col-md-8 col-md-offset-3 p-0 error" style="display: none">
+	<div class="col-md-8 col-md-offset-2 p-0 error" style="display: none">
 		<div class="alert alert-danger mb-4">
 			<i class="fa fa-exclamation-triangle mr-2"></i> 
 			<span class="error-text">-</span>
 		</div>
 	</div>
 
-	<div class="col-md-8 col-md-offset-3" style="padding: 20px; background: white; border-radius: 5px;">
+	<div class="col-md-8 col-md-offset-2" style="padding: 20px; background: white; border-radius: 5px;">
 		<ul class="nav nav-tabs" style="display: none">
 		    <li class="active"><a href="#tab1" data-toggle="tab">Data Mahasiswa</a></li>
 		    <li><a href="#tab2" data-toggle="tab">Verifikasi Data</a></li>

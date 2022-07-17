@@ -99,6 +99,7 @@ data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
 	<script src="<?=CDN?>themes/js/core/app.js" type="text/javascript"></script>
 	<script src="<?=CDN?>themes/js/scripts/customizer.js" type="text/javascript"></script>
 	<script src="<?=CDN?>themes/js/scripts/footer.min.js" type="text/javascript"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script> 
 <!-- END MODERN JS-->
 
 	<?php 

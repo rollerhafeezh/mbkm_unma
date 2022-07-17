@@ -21,12 +21,11 @@ class Usulan extends CI_Controller {
 	public function index()
 	{
 		if(empty($_SESSION['logged_in']) or $_SESSION['logged_in']==FALSE){ redirect ('https://mbkm.unma.ac.id');}
-		$data['title']	='Usulan Program';
+		$data['title']	='Program Kampus Merdeka';
 		$data['view']	='usulan/index';
 
-		$data['detail'] = json_decode($this->curl->simple_get(ADD_API.'aktivitas/mahasiswa_pt?id_mahasiswa_pt='.$_SESSION['id_user']))[0];
-		echo ADD_API.'aktivitas/mahasiswa_pt?id_mahasiswa_pt='.$_SESSION['id_user']; exit;
 		$data['aktivitas_mahasiswa'] = json_decode($this->curl->simple_get(ADD_API.'aktivitas/anggota?mbkm=1&id_mahasiswa_pt='.$_SESSION['id_user']));
+		$data['detail'] = json_decode($this->curl->simple_get(ADD_API.'mbkm/mahasiswa_pt?id_mahasiswa_pt='.$_SESSION['id_user']))[0];
 
 		$this->load->view('lyt/index', $data);
 	}
@@ -35,14 +34,48 @@ class Usulan extends CI_Controller {
 	{
 		$data['title']	='Logbook Kampus Merdeka';
 		$data['view']	='logbook/index';
-		$data['head']	= [ '<link rel="stylesheet" type="text/css" href="https://pixinvent.com/modern-admin-clean-bootstrap-4-dashboard-html-template/app-assets/css/pages/timeline.min.css">' ];
+		$data['head']	= [ '<link rel="stylesheet" type="text/css" href="https://pixinvent.com/modern-admin-clean-bootstrap-4-dashboard-html-template/app-assets/css/pages/timeline.min.css">', 
+							'<link href="https://cdn.jsdelivr.net/gh/univmajalengka/cdn@master/themes/vendors/css/tables/datatable/datatables.min.css" rel="stylesheet">',
+							'<script src="https://cdn.ckeditor.com/4.16.0/basic/ckeditor.js"></script>'
+						];
 		$data['footer'] = [ 
-							'<script src="'.base_url('assets/js/timeago/timeago.full.min.js').'"></script>'
+							'<script src="'.base_url('assets/js/timeago/timeago.full.min.js').'"></script>', '<script src="https://cdn.jsdelivr.net/gh/univmajalengka/cdn@master/themes/vendors/js/tables/datatable/datatables.min.js"></script> '
 						  ];
 
 	  	$data['detail'] = json_decode($this->curl->simple_get(ADD_API.'mbkm/mahasiswa_pt?id_mahasiswa_pt='.$_SESSION['id_user']))[0];
-		$data['aktivitas_mahasiswa'] = json_decode($this->curl->simple_get(ADD_API.'mbkm/anggota?id_aktivitas='.$id_aktivitas))[0];
-		$data['anggota']	= json_decode($this->curl->simple_get(ADD_API.'mbkm/anggota?id_aktivitas='.$id_aktivitas)) ?: [];
+		$data['aktivitas_mahasiswa'] = json_decode($this->curl->simple_get(ADD_API.'aktivitas/anggota?mbkm=1&id_aktivitas='.$id_aktivitas))[0];
+
+		if (!$data['aktivitas_mahasiswa']){
+			echo '<img src="'.base_url('assets/images/404.jpg').'" width="100%">'; exit;
+		}
+		$data['pembimbing'] = json_decode($this->curl->simple_get(ADD_API.'aktivitas/pembimbing?id_aktivitas='.$data['aktivitas_mahasiswa']->id_aktivitas));
+		$data['koordinator'] = json_decode($this->curl->simple_get(ADD_API.'aktivitas/koordinator?id_aktivitas='.$data['aktivitas_mahasiswa']->id_aktivitas));
+		$data['anggota']	= json_decode($this->curl->simple_get(ADD_API.'aktivitas/anggota?id_aktivitas='.$id_aktivitas)) ?: [];
+
+		$this->load->view('lyt/index', $data);
+	}
+
+	public function laporan ($id_aktivitas='')
+	{
+		$data['title']	='Laporan Kampus Merdeka';
+		$data['view']	='logbook/laporan';
+		$data['head']	= [ '<link rel="stylesheet" type="text/css" href="https://pixinvent.com/modern-admin-clean-bootstrap-4-dashboard-html-template/app-assets/css/pages/timeline.min.css">', 
+							'<link href="https://cdn.jsdelivr.net/gh/univmajalengka/cdn@master/themes/vendors/css/tables/datatable/datatables.min.css" rel="stylesheet">',
+							'<script src="https://cdn.ckeditor.com/4.16.0/basic/ckeditor.js"></script>'
+						];
+		$data['footer'] = [ 
+							'<script src="'.base_url('assets/js/timeago/timeago.full.min.js').'"></script>', '<script src="https://cdn.jsdelivr.net/gh/univmajalengka/cdn@master/themes/vendors/js/tables/datatable/datatables.min.js"></script> '
+						  ];
+
+	  	$data['detail'] = json_decode($this->curl->simple_get(ADD_API.'mbkm/mahasiswa_pt?id_mahasiswa_pt='.$_SESSION['id_user']))[0];
+		$data['aktivitas_mahasiswa'] = json_decode($this->curl->simple_get(ADD_API.'aktivitas/anggota?mbkm=1&id_aktivitas='.$id_aktivitas))[0];
+
+		if (!$data['aktivitas_mahasiswa']){
+			echo '<img src="'.base_url('assets/images/404.jpg').'" width="100%">'; exit;
+		}
+		$data['pembimbing'] = json_decode($this->curl->simple_get(ADD_API.'aktivitas/pembimbing?id_aktivitas='.$data['aktivitas_mahasiswa']->id_aktivitas));
+		$data['koordinator'] = json_decode($this->curl->simple_get(ADD_API.'aktivitas/koordinator?id_aktivitas='.$data['aktivitas_mahasiswa']->id_aktivitas));
+		$data['anggota']	= json_decode($this->curl->simple_get(ADD_API.'aktivitas/anggota?id_aktivitas='.$id_aktivitas)) ?: [];
 
 		$this->load->view('lyt/index', $data);
 	}

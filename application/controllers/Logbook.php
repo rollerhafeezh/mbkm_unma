@@ -37,6 +37,28 @@ class Logbook extends CI_Controller {
 		$this->load->view('lyt/index', $data);
 	}
 
+	public function detail($id_bimbingan, $act = null)
+	{
+		$data['bimbingan'] = json_decode($this->curl->simple_get(ADD_API.'aktivitas/bimbingan?id_bimbingan='.$id_bimbingan))[0];
+		
+		if ($act == 'edit') {
+			echo json_encode($data['bimbingan']); exit;
+		}
+
+		$this->load->view('logbook/detail_logbook', $data);
+	}
+
+	public function detail_laporan($id_laporan, $act = null)
+	{
+		$data['laporan'] = json_decode($this->curl->simple_get(ADD_API.'aktivitas/laporan?id_laporan='.$id_laporan))[0];
+		
+		if ($act == 'edit') {
+			echo json_encode($data['laporan']); exit;
+		}
+
+		$this->load->view('logbook/detail_laporan', $data);
+	}
+
 	public function logbook_pembimbing($id_user='') {
 		if ($id_user != '') {
 			$_SESSION['id_user'] = $id_user;
@@ -181,7 +203,7 @@ class Logbook extends CI_Controller {
 		flush();
 	}
 
-	public function kirim()
+	public function kirim($laporan = null)
 	{
 		date_default_timezone_set('Asia/Jakarta');
 
@@ -196,21 +218,33 @@ class Logbook extends CI_Controller {
 
 
 		if($_FILES)  {
-			$config['upload_path']          = './berkas/bimbingan/';
-		    $config['allowed_types']        = 'pdf|doc|docx|ppt|pptx|jpg|png|gif';
+			$config['upload_path']          = './berkas/logbook';
+		    $config['allowed_types']        = 'pdf|jpg|png|gif';
 		    $config['overwrite']			= true;
 		    $config['max_size']             = 5000; // 1MB
 
 		    $this->load->library('upload', $config);
+
 		    if ($this->upload->do_upload('file')) {
-		    	$data['file'] = base_url('berkas/bimbingan/'.$this->upload->data('file_name'));
+		    	$data['file'] = base_url('berkas/logbook/'.$this->upload->data('file_name'));
+		    } else {
+		    	echo $this->upload->display_errors();
+		    }
+
+		    if ($this->upload->do_upload('file_gambar')) {
+		    	$data['file_gambar'] = base_url('berkas/logbook/'.$this->upload->data('file_name'));
 		    } else {
 		    	echo $this->upload->display_errors();
 		    }
 		}
 
+		if ($laporan != null) {
+			$data['laporan'] = '1';
+		}
+
 		$bimbingan  = json_decode($this->curl->simple_post(ADD_API.'aktivitas/bimbingan', $data));
-		print_r($data);
+		
+		echo json_encode($data);
 	}
 
 	public function hapus()
@@ -219,8 +253,25 @@ class Logbook extends CI_Controller {
 			$file = explode('/', $this->input->post('file'));
 			unlink('./berkas/bimbingan/'.$file[5]);
 		}
+
+		if ($this->input->post('id_laporan')) {
+			$bimbingan  = json_decode($this->curl->simple_get(ADD_API.'aktivitas/hapus?id_laporan='.$this->input->post('id_laporan')));
+		} else {
+			$bimbingan  = json_decode($this->curl->simple_get(ADD_API.'aktivitas/hapus?id_bimbingan='.$this->input->post('id_bimbingan')));
+		}
 		
-		$bimbingan  = json_decode($this->curl->simple_get(ADD_API.'aktivitas/hapus?id_bimbingan='.$this->input->post('id_bimbingan')));
 		print_r($bimbingan);
+	}
+
+	function json_bimbingan()
+	{
+		$bimbingan=json_decode($this->curl->simple_get(ADD_API.'datatable/bimbingan_mhs_mbkm?jenis_bimbingan=1&level_name=Mahasiswa&id_user='.$this->input->get('id_user').'&id_aktivitas='.$this->input->get('id_aktivitas')));
+		echo json_encode($bimbingan);
+	}
+
+	function json_laporan()
+	{
+		$laporan=json_decode($this->curl->simple_get(ADD_API.'datatable/laporan_mhs_mbkm?level_name=Mahasiswa&id_user='.$this->input->get('id_user').'&id_aktivitas='.$this->input->get('id_aktivitas')));
+		echo json_encode($laporan);
 	}
 }

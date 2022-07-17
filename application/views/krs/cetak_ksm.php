@@ -18,15 +18,18 @@
     <body>
         <img src="<?= base_url('assets/logo/logo.png') ?>" style="width: 60px; float: left; margin-left: 100px;" >
         <p align="center">
+            <b class="judul">KEMENTERIAN PENDIDIKAN, KEBUDAYAAN, RISET DAN TEKNOLOGI</b> <br> 
             <b class="judul">UNIVERSITAS MAJALENGKA</b> <br> 
+            <?php if (!isset($mhs->nama_pt)): ?>
             <b class="judul"><?= $mhs->nama_fak ?></b> <br>
+            <?php endif; ?>
             <small>Jl. KH. Abdul Halim No. 103 Majalengka 45418</small>
         </p>
         <br>
         <div style="border-top: 2px solid black; width: 100%; display: block;">   
         <br> <br>     
         <p align="center">
-            <b><u style="font-size: 12pt;">KARTU STUDI MAHASISWA</u></b> <br>
+            <b><u style="font-size: 12pt;">KARTU STUDI MAHASISWA MBKM</u></b> <br>
             <small><i>Tahun Akademik <?= smt2nama($id_smt)?></i></small>
         </p>
         <br>
@@ -35,12 +38,13 @@
                 <td width="80" valign="top">Nama</td>
                 <td valign="top">: <?= $mhs->nm_pd ?></td>
                 <td valign="top" width="80">Prodi</td>
-                <td valign="top">: <?= explode(' - ', $mhs->homebase)[1] ?></td>
+                <td valign="top">: <?= isset($mhs->nama_pt) ? $mhs->nama_prodi.'<br> &nbsp;&nbsp;'.$mhs->nama_pt : explode(' - ', $mhs->homebase)[1] ?></td>
             </tr>
             <tr>
                 <td valign="top">NPM</td>
                 <td valign="top">: <?= $mhs->id_mahasiswa_pt; ?></td>
-                
+                <td valign="top">Program</td>
+                <td valign="top">: <?= $aktivitas_mahasiswa->nama_jenis_aktivitas_mahasiswa ?></td>
             </tr>
         </table>
         <br>

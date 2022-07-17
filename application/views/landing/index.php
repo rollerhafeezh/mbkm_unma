@@ -21,10 +21,57 @@
     <div class="container com-sp">
         <div class="row">
             <div class="con-title">
-                <h2>Terkini</h2>
+                <h2 style="margin-bottom: 30px;">Berita Terkini</h2>
             </div>
         </div>
+        <style type="text/css">
+        	.ed-faci-full-bot p {
+			    display: -webkit-box;
+			    -webkit-line-clamp: 5;
+			    -webkit-box-orient: vertical;
+			    overflow: hidden;
+			    text-overflow: ellipsis;
+			    line-height: 1.625;
+			}
+
+			.ed-faci-full-bot h4 a {
+			    display: -webkit-box;
+			    -webkit-line-clamp: 2;
+			    -webkit-box-orient: vertical;
+			    overflow: hidden;
+			    text-overflow: ellipsis;
+			    line-height: 1.625;
+			}
+
+			.ed-faci-full-top {
+			    /*height: 150px;*/
+			}
+        </style>
         <div class="row">
+        	<div class="cor about-sp">
+                <div class="ed-about-sec1">
+                	<?php foreach ($berita as $row): ?>
+                    <div class="col-md-3" style="margin-bottom: 20px; padding: 0 !important;">
+						<div class="ed-rese-grid">
+							<div class="ed-rsear-img ed-faci-full-top" style="text-align: center; float: none !important;">
+								<img style="height: 175px; width: auto;" src="<?= $row->jetpack_featured_media_url ?>" alt="<?= strip_tags($row->title->rendered) ?>">
+							</div>
+							<div class="ed-rsear-dec ed-faci-full-bot" style="float: none !important;">
+								<h4><a href="<?= $row->link ?>" target="_blank"><?= strip_tags($row->title->rendered) ?></a></h4>
+								<small><i class="fa fa-calendar"></i> &nbsp; <?= date_indo(date("Y-m-d", strtotime($row->date))) ?></small>
+								<p><?= $row->excerpt->rendered ?></p>
+							</div>
+						</div>
+                    </div>
+                	<?php endforeach; ?>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="col-12 text-center" style="margin-top: 30px;">
+            	<a href="https://unma.ac.id/category/kampus-merdeka/" target="_blank" class="btn btn-primary">Berita Lainnya &raquo;</a>
+            </div>
+        </div>
+        <!-- <div class="row">
             <div class="ed-course">
                 <?php foreach ($pengumuman->data as $row): ?>
                 <div class="col-md-3 col-sm-4 col-xs-6">
@@ -43,7 +90,7 @@
             <div class="col-12 text-center">
             	<a href="https://kampusmerdeka.kemdikbud.go.id/announcement" target="_blank" class="btn btn-primary">Pengumuman Lainnya &raquo;</a>
             </div>
-        </div>
+        </div> -->
     </div>
 </section>
 

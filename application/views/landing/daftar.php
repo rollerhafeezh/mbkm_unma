@@ -27,7 +27,7 @@
             <div class="cor about-sp">
                 <div class="row">
                 	<!-- SEND EMAIL -->
-                	<div class="col-md-8 col-md-offset-3 daftar" style="padding: 20px; background: white; border-radius: 5px; display: none">
+                	<div class="col-md-8 col-md-offset-2 daftar" style="padding: 20px; background: white; border-radius: 5px; display: none">
 						<div class="ed-about-sec1 text-center">
 		                	<h3 class="my-2">Pendaftaran Berhasil</h3>
                         	<p class="mt-4 text-center">
@@ -42,7 +42,7 @@
                 	</div>
                 	<!-- SEND EMAIL -->
 
-                	<div class="col-md-8 col-md-offset-3" id="pilih-peran" style="padding: 20px; background: white; border-radius: 5px;">
+                	<div class="col-md-8 col-md-offset-2" id="pilih-peran" style="padding: 20px; background: white; border-radius: 5px;">
                 		<form onsubmit="event.preventDefault(); return pilih_peran(this)">
 	                		<div class="ed-about-sec1">
 	            				<!-- <h4 class="my-2 pull-right">1/2</h4> -->
@@ -55,7 +55,7 @@
 		                        			<option value="" hidden>Pilih Posisi</option>
 		                        			<option value="1">Mahasiswa</option>
 		                        			<option value="2">Dosen</option>
-		                        			<option value="3">Mitra</option>
+		                        			<option value="3" disabled="">Mitra (Coming Soon)</option>
 		                        		</select>
 		                        	</div>
 			                    </div>
@@ -155,6 +155,8 @@
 	}
 
 	function daftar(e) {
+		$('button').html('<i class="fa fa-spin fa-spinner"></i> Menyimpan ...')
+		$('button').attr('disabled', 'true')
 		grecaptcha.ready(function() {
           grecaptcha.execute('6Ldh9pofAAAAAHRKrF24CnM9p3Mvhxr-qLCIF5x6', {action: 'submit'}).then(function(token) {
 			var formData = new FormData(e)
@@ -163,6 +165,8 @@
 			fetch('<?= base_url('daftar/simpan') ?>', { method: 'POST', body: formData })
 			.then(response => response.json())
 			.then(json => {
+				$('button').html('Selanjutnya &raquo;')
+				$('button').removeAttr('disabled')
 				if (json.error) {
 					$('.error').fadeIn()
 					$('.error-text').text(json.error.message)
@@ -171,8 +175,8 @@
   					document.documentElement.scrollTop = 0;
 				} else {
 					$('.error').hide()
-					// $('.daftar').show()
-					// $('#daftar-mahasiswa').hide()
+					$('.daftar').show()
+					$('#daftar-mahasiswa').hide()
 				}
 			})
 			
